@@ -63,3 +63,9 @@
 13. **Feet must not rock.** A crescent foot with a shallow belly stands on a 2 cm strip and rocks about 5 degrees
     before its ends land (lean margin only 1.01 on Rest). Put bought glides (steel-backed felt or nylon, about 20 mm)
     under both foot ends, or flatten the underside so the foot lands on its ends. Check the lean margin is 1.3 or more.
+14. **"One body" is not "watertight": count edges with other than two faces.** A frame can mesh to a single body and
+    still fail `is_watertight` where two carved blades (feather to feather) meet edge to edge with no metal between
+    them: marching cubes leaves an edge shared by four faces. Changing the voxel size only moves the problem. In metal
+    that contact is a knife-thin join that cracks. List those edges (`np.unique(m.edges_sorted, axis=0,
+    return_counts=True)`, count != 2), put a 1.5 mm fillet bead (smooth sphere, k 0.1) at each, and re-mesh until the
+    count is 0. The Carved sawhorse had four (18 Nov 2026); the beads are invisible in renders.
