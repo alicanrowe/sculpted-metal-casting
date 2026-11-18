@@ -14,7 +14,7 @@ The code is in `scripts/`. The rules that came out of real review rounds are in 
 
 ## Before you start
 1. **Do what was asked, no more.** Quote the client's words for the job before you start. "Match X's close-ups", "same layout as X" or "re-render" means new views of the current model: no geometry change. Change geometry only where the client's words ask for it ("fix the moth rig", "the feet look like elf shoes"), keep everything else, and say in the report which parts changed. A brief written for another thread quotes the client and lists what must not change.
-2. Read `references/style-rules.md`, `references/casting-rules.md`, `references/buildable.md` and `references/client-picks.md` (details the client has said they love: reuse them, don't check them away).
+2. Read `references/style-rules.md`, `references/casting-rules.md`, `references/buildable.md` and `references/client-picks.md` (details the client has said they love: reuse them, don't check them away). Check every design against the **Design taste** list at the end of `style-rules.md` before showing it.
 3. Look for a project aesthetic brief (for example `AESTHETIC.md`). If there is none, write one from `references/brief-template.md` with the client's words and the named reference artists. Never copy a reference: borrow its hand, not its pieces.
 4. Set up Python 3.13: `pip install bpy==5.3.0 numpy scipy scikit-image trimesh manifold3d pillow numba`. `numba` is required (`sdf.py` uses it). Run shell scripts with `bash`.
 5. If the brand has a theme (fonts, colours, logo), use it for every sheet and caption you make.
@@ -47,4 +47,4 @@ Read `references/furniture-scale.md`. The worked example (`scripts/sawhorse/`) k
 - No ball joints, umbrella ribs or wire outlines that no caster could make in one pour.
 
 ## Keep this skill improving
-When a client flags something, or a check misses a problem, write the rule into the matching reference file in the same session (style, casting, buildable, stone settings, render farm, client picks), add a planted case to `scripts/tests/` if a check should have caught it, and run `python3 scripts/tests/test_check_settings.py && python3 scripts/tests/test_check_soft_parts.py`. Then publish the skill.
+When a client flags something, or a check misses a problem, write the rule into the matching reference file in the same session (taste remarks go in the Design taste list in `style-rules.md` and, with the client's words, in `client-picks.md`; style, casting, buildable, stone settings, render farm, client picks), add a planted case to `scripts/tests/` if a check should have caught it, and run `python3 scripts/tests/test_check_settings.py && python3 scripts/tests/test_check_soft_parts.py`. Then publish the skill.

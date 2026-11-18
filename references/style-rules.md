@@ -32,3 +32,25 @@ These came out of real review rounds. Each one is a correction a client already 
   symmetric stencil cut from plate. Build it from structure (veins, feathers, wire, carved bodies) and let it be
   abstracted or partial. Tiny repeated motifs that can't carry their detail at viewing distance get scaled up
   into real members or dropped. See `client-picks.md` for what the client loves and flagged.
+
+## Design taste (the client's stated preferences, kept up to date)
+Every correction the client makes about how something looks goes here as a rule the same day, with the words they
+used in `client-picks.md`. Read this before any design or redesign, and check new work against every line.
+
+- **Dark, scary and gothic beats pretty.** When asked for "the theme", push toward menace: bone, claw, thorn,
+  carapace, needle points, black and darkened metal. Tidy, cute or generic ornament is a fail even if it is clean.
+- **Never literal.** No clip-art insects, butterfly or moth silhouettes, pictogram bugs at a crossing, or cut-out
+  stencils. The creature is suggested by structure (veins, bones, joints, wing membranes that brace) and may be
+  partial or abstract. Two strikes on this already (Edge stretcher, Edge X hub).
+- **Fit the piece's own world.** New parts (feet, handles, hubs, pulls, hinges) are built from motifs already on
+  that piece. Read the piece's model and renders first and name the motifs you are reusing in the brief.
+- **One creature, head to foot.** A foot is the leg continuing in the same members (Durumi's crane foot is the
+  reference). No stock foot shared across variants, no curled-up "elf shoe" toes.
+- **Spikes wind, they don't line up.** Thorns run along vines and long members; never a comb of barbs or spikes on
+  the focal point.
+- **One focal point and quiet space.** Busy centres get flagged; let crossing members pass clean.
+- **Motifs must read at viewing distance**, or get scaled up into real members, or dropped.
+- **Variants change the silhouette**, not just the colour or stones.
+
+Check before showing any design: hold the render next to this list and the pinned picks. If a line fails, fix it
+first. If the client says something about taste that isn't here, add it in the same session.
