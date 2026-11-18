@@ -37,3 +37,24 @@ have nothing to reflect and render as black slabs. Keep the background black to 
 soft grey gradient sky: a Light Path "Is Camera Ray" mix in the world. Give the steel roughness 0.3, not 0.2.
 Found 18 Nov on the Moth tools v2 quick pass. Frame each view by projecting the bbox corners into camera space, not
 from the bbox size alone, or tall pieces seen from an angle get cropped.
+
+## "Crazy low poly": tessellation, edge breaks and the studio for photoreal metal
+Client flag on the tools round 1 sheet: fleam blades and a cautery head were "crazy low poly", and the bar became
+"recursively check against a photoreal reference until it matches" (a named maker's chisel for a chisel, a sculpted
+render set for ornament). What fixed it, in order of effect:
+- Tessellate for the final resolution, not the preview: round parts about 3x the old segment counts (lathes 64+,
+  ellipsoids 48x24), swept paths resampled on a Catmull-Rom spline with steps under one tube radius. Keep 3/4/6/8
+  segments only where the facets are meant (square neck, octagon grip, three-sided needle point).
+- Spline smoothing overshoots at sharp corners (a lancet frame's bottom corners dipped 0.6 in below the floor). Give any
+  turn over ~50 deg a zero tangent so corners stay corners.
+- Nothing has a CG knife edge: a 0.15 mm Bevel modifier (3 segments, angle limit 32 deg, harden normals, clamp) on every
+  rigid part, after welding faces built separately and recalculating normals.
+- Blades are not plates: build them as slabs whose edge rings step inward and thin to the edge (a ground bevel), and
+  limit each ring's inset to under half the local width or sharp points fold over.
+- Loft real sections where the reference has them (a bevel-edge chisel is a six-sided section with hairline lands, a
+  25 deg primary bevel, and a round neck lofted out of the shoulders). Assign the ground faces to a blackened material
+  and the lapped flats to mirror steel, as the reference maker finishes them.
+- Pointiness edge-rub stops working on dense meshes (every smooth convex surface reads as an edge, so blackened steel
+  turns silver). Move the ramp to 0.6-0.75 and put the patina in the recesses with an AO node instead.
+- Polished steel needs something to mirror: give glossy rays a world with strip softboxes (a bright horizon band and a
+  high band on dark), keep the camera seeing black. Round steel then shows light-dark-light bands instead of a milky sheen.

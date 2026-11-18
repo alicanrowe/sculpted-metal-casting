@@ -52,3 +52,20 @@ On 18 Nov 2026 a sawhorse seat's knot, ears and tether were fused SDF blobs, the
 not open, the toggle fastened nothing, and mesher cracks showed as black lines. Another variant's moth hung on ball
 joints and umbrella ribs. The client had to ask for it to be "recursively resolved until it is physically possible in
 real life". The checks above catch each of those on the model.
+
+## Assembly check for multi-part pieces (tools, cages, stands)
+Run before every render of a piece built from many parts (each add() of a primitive is one physical part):
+1. **Glass.** No part intersects a glass vessel. A cage is bent round blown glass, so straps and tracery stand a fixed
+   gap off it (1/32 in) by following the glass profile plus gap plus wire radius. The glass must still be held: a collar
+   clamped to the neck and a foot cup under the tip touch it. Model the vessel hollow (outer wall, lip, inner wall) so a
+   stopper plug and a dropper sit in the bore without passing through glass.
+2. **Nothing loose.** Union-find over parts that intersect or come within 0.004 in; one connected assembly per piece.
+   Check contact both ways (a coarse lathe may have no vertex near a fine ring) and count a part fully inside another
+   (a pin in a bore) as joined. Typical finds: a crown bud hovering over its cap, a slide ring floating round a shank,
+   a trefoil whose lobes don't meet, braid tracery that never touches its frame (add a mullion it crosses, or ties).
+3. **Cast detail at least 0.5 mm across.** Floor every swept wire, vein, barb and thorn tip at 0.0099 in radius;
+   only steel needle points may go finer.
+4. **Stands carry their tools.** Place each tool by settling it: start from the highest lift that is clear of the stand
+   (tools go on from the side: a neck into a fork, a bail over a peg), lower until first contact. Then check no tool
+   penetrates the stand more than 0.02 in and every tool touches it. A fork hook needs a long enough round neck under the
+   collar for the prongs, and its upturned tips must reach past the widest part that hangs above them.

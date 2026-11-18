@@ -26,3 +26,15 @@ Below are the notes from one review of a nine-way sawhorse comparison sheet (Nov
 - **"The literal bug sucks."** A flat butterfly with cut-out wing holes and curled antennae pinned at the crossing of four rods. Second strike for literal insects. A hub where members meet is a structural knot the rods grow out of, never a pictogram.
 - **"This handle is awful."** A tidy, generic ornamental handle on a dark moth-themed case. Hardware for an existing piece comes out of that piece's own motifs, and for a dark piece it goes scarier and more gothic. List the motifs already on the piece before drawing hardware; ornament that could go on any box is rejected.
 - **"Make sure the tools are based on the old ones ... improvements in the geometry and increasing the complexity of the tooling and reflecting reality more."** When the client likes an existing set, the next round is a refinement, not a redesign. Keep the silhouettes, proportions and materials, and add real-instrument detail: raked and set teeth, a folded back, bevels, needle eyes, lead screws, back springs, pivot pins and graduations. Then work in the host piece's motifs as chasing, finials and guards.
+
+## Client flags on the tools round 1 sheet: "these are crazy low poly", "is the metal clipping through the glass that isnt possible"
+Round 2 direction: "recursively check for real world fabricability" and recursively compare each piece to a photoreal
+reference until it matches. References logged for this family:
+- A sculpted instrument render set ("Pick your utensil", Instagram post DUUOA7KDGrX): acanthus scroll guards in bright
+  silver with dark recesses, glossy black lacquered grips, twisted-wire bands, spiked quillons, mottled brushed steel,
+  a rusted saw plate. The bar for ornament density and metal finish.
+- Harold & Saxon bevel-edge chisels (Australian, hand made): mirror-lapped flats against blackened side and primary
+  bevels, hairline side lands, a polished round neck drawn out of the blade shoulders, a ferrule, figured timber grip.
+  The bar for the chisel.
+- The client's earlier leather braiding references (re-requested; not in the project files yet).
+How round 2 answered: see check-loop.md ("Crazy low poly") and buildable.md ("Assembly check").
