@@ -76,6 +76,11 @@ Small random wing/outline differences read as mistakes. Either mirror the pair, 
   gable options). At cm scale call `Scene.feather` directly with pitch about 0.075, depth 0.03, shaft 0.03 x L,
   ridge 0.05, one or two notches, width about 0.2 to 0.27 x L, thickness 0.16 to 0.26 (cast floor). The working
   wrapper is `gfeather` in `moth-build/gems/moth_gems.py`.
+- Root cause, found on the first cloud renders: `_feather` in `sdf.py` cut a hard-coded 0.09 serration into the
+  vane edge (0.09 mm in jewelry, 0.9 mm in a cm kit), whatever the pitch. Fixed in the kit (all three copies of
+  sdf.py): the serration now scales with min(1, pitch / 0.28), so jewelry (pitch 0.28 or more) is unchanged and a
+  cm feather with pitch 0.05 gets a smooth edge. Narrow vanes (W about 0.13 to 0.17 x L) read as feathers; broad
+  ones (0.2 x L and up) read as leaves even with a smooth edge.
 - Radiating separate feathers (a star of them) also read as a leaf. Shingle them (each overlapping the next), or
   turn them all the same way round a centre like rose-window mouchettes, and keep it to five or fewer.
 - A frame with straight jambs that run down below the subject and end in hooks reads as a stool or a table. End

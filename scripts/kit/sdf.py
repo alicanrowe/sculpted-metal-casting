@@ -65,7 +65,7 @@ def _feather(P, i, x, y, z):
     g = max(0.0, 1.0 - min(f, 1.0 - f) / 0.3)
     dm = 0.65 + 0.7 * _hash(nb * 1.37 + seed + (0.5 if y < 0 else 0.0))
     q = min(1.0, ay / max(w, 1e-6))
-    we = w - 0.09 * g * dm * q * q * (1.0 if uc > quill else 0.0)        # serrated edge
+    we = w - 0.09 * min(1.0, pitch / 0.28) * g * dm * q * q * (1.0 if uc > quill else 0.0)   # serrated edge; scales down below the mm pitch floor (cm kits: 0.9 mm teeth read as leaves, 18 Nov)
     dy = ay - we
     dx = max(-x, x - L)
     dxy = max(dy * 0.85, dx)
