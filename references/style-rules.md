@@ -51,6 +51,15 @@ used in `client-picks.md`. Read this before any design or redesign, and check ne
 - **One focal point and quiet space.** Busy centres get flagged; let crossing members pass clean.
 - **Motifs must read at viewing distance**, or get scaled up into real members, or dropped.
 - **Variants change the silhouette**, not just the colour or stones.
+- **A liked change goes everywhere.** When the client likes an improvement on one piece of a set, roll it out to every
+  related piece in that piece's own language, and push it live ("keep the updates eveyrwhere its a rule").
+- **No hexagon cages.** A hexagon frame with a block hub on tension rods reads as hardware, not sculpture (Edge r9
+  hub: "i hate the hexagon rework").
+- **Long spikes and horns taper smoothly.** No lumps, ripples or knuckled bulges along a hanging spike or horn
+  ("fix this being lumpy").
+- **Liked feet and profiles to reuse:** Thread r9's twisted-strand foot (two strands twisting low to a whipped
+  scroll-ball toe on the floor); Edge r9's planted beak T-foot on glides; Edge's side profile, tapered legs flaring
+  into a T-foot ("this is a really nice side profile").
 
 Check before showing any design: hold the render next to this list and the pinned picks. If a line fails, fix it
 first. If the client says something about taste that isn't here, add it in the same session.
@@ -60,3 +69,15 @@ Small random wing/outline differences read as mistakes. Either mirror the pair, 
 
 ## No borrowed brand motifs (client, r4 review)
 - No gothic cross / dagger / fleur-de-lis terminals. They read as a Chrome Hearts rip-off. Tails end in organic insect forms (tapering abdomen, curl) with no nub.
+
+## Carved feathers at furniture scale (moth case gable motifs, 18 Nov 2026)
+- `moira.feather` is tuned in mm: it clips the barb pitch to 0.28 and the depth to 0.15. In a cm kit a 3 cm
+  feather gets 3 mm teeth along its edge, and a fan of them reads as a cannabis leaf (first check pass, all three
+  gable options). At cm scale call `Scene.feather` directly with pitch about 0.075, depth 0.03, shaft 0.03 x L,
+  ridge 0.05, one or two notches, width about 0.2 to 0.27 x L, thickness 0.16 to 0.26 (cast floor). The working
+  wrapper is `gfeather` in `moth-build/gems/moth_gems.py`.
+- Radiating separate feathers (a star of them) also read as a leaf. Shingle them (each overlapping the next), or
+  turn them all the same way round a centre like rose-window mouchettes, and keep it to five or fewer.
+- A frame with straight jambs that run down below the subject and end in hooks reads as a stool or a table. End
+  jambs on the mounting surface in a short point.
+

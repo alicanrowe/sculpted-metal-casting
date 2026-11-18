@@ -21,3 +21,13 @@ A 3.4 mm bead-set stone is wrong twice: it is over the 2 mm bead limit and not a
 - Stones never touch. Leave a wall between seats, and check the hero and top views for crowding.
 - Avoid stiff symmetric grids of stones. Vary sizes inside a cluster and let one lead.
 - Clear glass or pale stones can vanish on a white render. If a pane disappears, darken the bezel edge or raise the stone's absorption so it reads.
+
+## Small pears at furniture scale (moth case gable motifs, 18 Nov 2026)
+- A 6 x 4 mm pear on cm-kit claws fails `check_settings.py` HOLD: at that size the claws and the bail merge into
+  2 or 3 holds, whatever the claw count (4, 5, 6 all failed). 7 x 5 mm with 5 claws passes. Use 7 x 5 as the
+  smallest pear drop on furniture pieces; "unequal" drops differ in chain length and colour, not stone size.
+- `v2.claws`' gallery ring sits about 0.3 to 0.4 mm inside the girdle of stones under 6 mm and fails CLEAR. After
+  setting, cut a thin girdle band (ellipsoid L/2 x D/2 x 0.35 mm, op=1) at the girdle, as a setter would cut a
+  seat (`gem()` in `moth-build/gems/moth_gems.py`).
+- A bail cone that runs into the pear's tip buries the stone: stop it 0.5 mm above the tip.
+
