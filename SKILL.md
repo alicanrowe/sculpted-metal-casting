@@ -35,6 +35,9 @@ The code is in `scripts/`. The rules that came out of real review rounds are in 
 ## Furniture-scale castings
 Read `references/furniture-scale.md`. The worked example (`scripts/sawhorse/`) keeps the proportions of a classic wooden sawhorse, recasts the frame in metal with the same kit, and adds a removable leather seat that drops over the rail on a slot. The rules: the bare frame must still work (flat rail top at the original height, nothing above that line), the metal is one watertight casting, and every sheet shows the seat on and off. For anything people sit or stand on, also run a load and tipping check.
 
+## Getting it made
+When designs are final, read `references/production-and-delivery.md`: who casts, prints, sets stones and finishes each part, what the client does by hand (leather), bought hardware, and the stone-cup rule for steel furniture.
+
 ## Rules that are easy to break
 - No bead rows anywhere: no strung beads, ladder ticks, dot rows, milgrain, rope or knurled rims. They read machined.
 - Every stroke swells and ends in a needle. No even-gauge tubes, no ball ends, no straight rods.

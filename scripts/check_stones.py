@@ -22,6 +22,15 @@ SPECIES = {
     "moonstone":  (2.57, 8, 14, "5-40", "usually cut as cabochon; faceted rainbow moonstone is sold small"),
     "labradorite": (2.70, 10, 20, "2-20", "almost always cabochon, not faceted"),
     "peridot":    (3.34, 8, 14, "10-80", "stock to ~8 mm"),
+    "morganite":  (2.80, 12, 20, "20-150", "pink beryl: light peach-pink, clean stock to ~12 mm"),
+    "rosefrance": (2.65, 20, 40, "2-12", "rose de France (light lilac amethyst): quartz, large sizes cheap"),
+    "pinktourmaline": (3.06, 8, 12, "30-200", "light pink tourmaline: stock to ~8 mm, larger costs fast"),
+    "skytopaz":   (3.53, 18, 35, "1-8", "sky blue topaz (treated): large sizes common and cheap"),
+    "swisstopaz": (3.53, 18, 35, "1-8", "swiss blue topaz (treated): large sizes common and cheap"),
+    "rhodolite":  (3.84, 10, 14, "10-60", "rhodolite / malaya garnet: lighter raspberry red, stock to ~10 mm"),
+    "imperialtopaz": (3.53, 8, 14, "30-300", "imperial (peach-gold) topaz is pricey; madeira citrine is the cheap swap"),
+    "whitetopaz": (3.53, 18, 35, "1-6", "white topaz: cheap bright stand-in for diamond"),
+    "iceaqua":    (2.70, 10, 18, "15-200", "pale aquamarine: the lightest grades are cheaper than deep blue"),
 }
 SWAP = {
     "aquamarine": "sky blue topaz (same colour, cheap in large sizes) or keep aquamarine at 10 mm or less",
