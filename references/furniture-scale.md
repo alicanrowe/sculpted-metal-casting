@@ -57,3 +57,9 @@
     passes, and then only the smallest local swell (stress goes as 1/d^3, so +10% diameter takes about 25% off).
     Parts bigger than one build or pattern are made in sections joined at hidden welds or bolts. Finish: polished
     steel, or rhodium or silver plate where it must read as silver.
+    Result on the nine variant sawhorses (18 Nov 2026): eight pass in cast 17-4PH H1150
+    with wide margin and no change. Thread (fine strands) needs printed maraging steel (2x margin; H900 only
+    marginal and less tough).
+13. **Feet must not rock.** A crescent foot with a shallow belly stands on a 2 cm strip and rocks about 5 degrees
+    before its ends land (lean margin only 1.01 on Rest). Put bought glides (steel-backed felt or nylon, about 20 mm)
+    under both foot ends, or flatten the underside so the foot lands on its ends. Check the lean margin is 1.3 or more.

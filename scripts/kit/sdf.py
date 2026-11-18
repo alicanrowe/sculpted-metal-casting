@@ -339,13 +339,28 @@ def tangents(pts):
 
 
 # ---------------------------------------------------------------- meshing
-def mesh(P, vox=0.05, block=40, verbose=True):
+def mesh(P, vox=0.05, block=40, verbose=True, _try=0):
+    """Narrow-band marching cubes in blocks, with a seam guard (Nov 18). At some voxel sizes a block's prim
+    culling disagrees with its neighbour, a whole block row goes missing and the casting splits exactly on a block
+    seam (a sawhorse lost both legs at VOX 0.09, clean at 0.11). After meshing, open edges lying on a seam plane mean
+    that happened: retry on a grid shifted by a fraction of a voxel, and raise if three shifts all fail."""
+    V, F, seam_open, lo = _mesh_once(P, vox, block, verbose, shift=(0.0, 0.37, 0.61, 0.19)[_try])
+    if seam_open:
+        msg = f"mesher dropped a block: {seam_open} piece(s) cut off on a block seam at vox {vox} (grid shift try {_try})"
+        if _try < 3:
+            if verbose: print("  " + msg + "; retrying on a shifted grid", flush=True)
+            return mesh(P, vox, block, verbose, _try + 1)
+        raise RuntimeError(msg + "; try another VOX")
+    return V, F
+
+
+def _mesh_once(P, vox, block, verbose, shift=0.0):
     from skimage.measure import marching_cubes
     P = np.array(P, np.float64)
     kmax = P[:, 2].max() if len(P) else 0          # a prim influences smooth blends up to kmax away
     P[:, 19:22] -= kmax; P[:, 22:25] += kmax
     U = P[:, 1] == 0
-    lo = P[U, 19:22].min(0) - 3 * vox; hi = P[U, 22:25].max(0) + 3 * vox
+    lo = P[U, 19:22].min(0) - (3 + shift) * vox; hi = P[U, 22:25].max(0) + 3 * vox
     n = np.ceil((hi - lo) / vox).astype(int) + 1
     nb = np.ceil(n / block).astype(int)
     verts, faces, nv = [], [], 0
@@ -391,16 +406,32 @@ def mesh(P, vox=0.05, block=40, verbose=True):
                     if 0 <= nk[ax] < nb[ax] and tuple(nk) not in done:
                         queue.append(tuple(nk))
         v, f, _, _ = marching_cubes(d, 0.0, spacing=(vox, vox, vox))
-        verts.append(v + b0); faces.append(f + nv); nv += len(v); cnt += 1
+        verts.append(np.asarray(v, np.float64) / vox + i0); faces.append(f + nv); nv += len(v); cnt += 1   # lattice units: seams weld exactly
     V = np.vstack(verts); F = np.vstack(faces)
     # weld block seams: identical lattice-edge vertices
-    key = np.round(V / (vox * 1e-3)).astype(np.int64)
+    key = np.round(V * 64).astype(np.int64)          # 1/64 voxel: shared seam vertices always land on the same key
     uk, first, inv = np.unique(key, axis=0, return_index=True, return_inverse=True)
-    V = V[first]; F = inv.ravel()[F]
+    V = lo + V[first] * vox; F = inv.ravel()[F]
     F = F[(F[:, 0] != F[:, 1]) & (F[:, 1] != F[:, 2]) & (F[:, 0] != F[:, 2])]
     if verbose:
         print(f"  mesh: {cnt} blocks, {len(V)} verts, {len(F)} tris", flush=True)
-    return V.astype(np.float32), F.astype(np.int32)
+    # seam guard: a lost block cuts the casting on a seam plane, leaving a big separate piece whose bounding box
+    # ends exactly on that plane. Small seam slivers are normal (repair them later) and are ignored here.
+    seam_open = 0
+    try:
+        import trimesh
+        parts = trimesh.Trimesh(V, F, process=False).split(only_watertight=False)
+        if len(parts) > 1:
+            areas = np.array([p.area for p in parts]); main = areas.max()
+            for p, ar in zip(parts, areas):
+                if ar == main or ar < 25 * vox * vox: continue
+                g = (p.bounds - lo) / (block * vox)
+                if np.any(np.abs(g - np.round(g)) < 1e-3):
+                    seam_open += 1
+                    if verbose: print("   cut piece", round(float(ar), 2), p.bounds.round(2).tolist(), flush=True)
+    except ImportError:
+        pass
+    return V.astype(np.float32), F.astype(np.int32), seam_open, lo
 
 
 def save_stl(V, F, path, smooth=0):

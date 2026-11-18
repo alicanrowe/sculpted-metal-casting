@@ -27,9 +27,5 @@ Traps that have already happened:
 - **Big blue.** For a large blue stone, choose london or sky topaz. Never use a big aquamarine.
 - **Cost.** At jewelry scale the cost driver is how many stones there are, not their size. Each stone is also a setting charge. Note the stone count on the sheet when it passes about 20.
 
-## Furniture caps: watch the prong snap floor
-`moira.prong` snaps a round down to floor(D*2)/2 and clips it to 1.5 to 10. Those limits are in mm for jewelry, but
-in a cm furniture kit they become 15 to 100 mm, so any cap under 1.5 cm comes back as 15 mm. The Rest cap
-(`_capped_prong` in sawmoth.py) is safe because its stones cap at 1.5 and 2.0 cm. For smaller furniture stones,
-do the snap yourself in mm and pass a pre-snapped size with snapping off, or scale the stone in mm and convert back.
-Then confirm with `check_stones.py --furniture-cm` on the written stones json, not on the caps you asked for.
+## Furniture caps: snap in furniture units
+`moira.prong` snaps rounds in mm and clips them to 1.5 to 10. In a cm furniture kit that turned every cap under 1.5 cm back into a 15 mm stone, so 1.0 and 0.8 cm caps didn't hold. The sawhorse's `_capped_prong` (scripts/sawhorse/sawmoth.py) now caps at `STONE_CAP_CM`, snaps down to a stock round in cm (`CAL_R_CM`, 1.5 to 20 mm) and sets it with `v2.claws` directly. Use the same pattern for any kit that isn't in mm, then confirm with `check_stones.py --furniture-cm` on the written stones json.

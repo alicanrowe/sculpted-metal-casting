@@ -139,9 +139,23 @@ STONE_CAP_CM = {"amethyst": 2.0, "citrine": 2.0, "topaz": 1.8, "londonblue": 1.6
 _prong0 = Mo.prong
 
 
-def _capped_prong(s, st, c, D, kind, L=None, **kw):
-    cap = STONE_CAP_CM.get(kind, 1.0)      # furniture stones are rounds (the jewelry oval table is in mm)
-    return _prong0(s, st, c, min(D, cap), kind, L=None, **kw)
+# calibrated stock sizes in cm (rounds 1.5 to 20 mm), so the snap happens in furniture units. moira.prong snaps in mm
+# and clips rounds to 1.5..10, which in cm turned every cap under 1.5 cm back into a 15 mm stone (Nov 18 fix).
+CAL_R_CM = [x / 10 for x in (1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 6, 7, 8, 10, 12, 14, 16, 18, 20)]
+
+
+def _capped_prong(s, st, c, D, kind, L=None, normal=(0, 0, 1), spin=0.0, n=None, wire=None, **kw):
+    """Furniture claw setting: cap at STONE_CAP_CM, snap down to a stock round in cm, set it with v2.claws.
+    Furniture stones are rounds (the jewelry oval table is in mm)."""
+    cap = STONE_CAP_CM.get(kind, 1.0)
+    d = min(float(D), cap)
+    D = max([x for x in CAL_R_CM if x <= d + 1e-6] or [CAL_R_CM[0]])
+    n = n or 4
+    wire = wire or float(np.clip(0.07 * D + 0.12, 0.16, 0.4))
+    rec = v2.claws(s, np.asarray(c, float), D, D, normal=normal, spin=spin, n=n, wire=wire, k=0.3)
+    rec["shape"] = "round"
+    st.append(dict(kind=kind, **rec))
+    return rec
 
 
 Mo.prong = _capped_prong
