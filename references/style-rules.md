@@ -27,3 +27,8 @@ These came out of real review rounds. Each one is a correction a client already 
 ## Renders
 17. Photoreal polished silver on white, in a light tent with soft gradients and grey flags for edges. Instagram square: hero large on top, three smaller angles below, no text.
 18. Make sure nothing is cropped in the small views, and that every stone shows in at least one view.
+
+- **No literal motifs (client flag, 18 Nov 2026).** A moth or butterfly is never a flat clip-art outline or a
+  symmetric stencil cut from plate. Build it from structure (veins, feathers, wire, carved bodies) and let it be
+  abstracted or partial. Tiny repeated motifs that can't carry their detail at viewing distance get scaled up
+  into real members or dropped. See `client-picks.md` for what the client loves and flagged.

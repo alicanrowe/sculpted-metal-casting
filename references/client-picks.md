@@ -1,0 +1,23 @@
+# Client picks: proven moves and flags
+
+Every client review leaves two kinds of notes: details they love, and details they flag. Keep both in a file like this one for each collection, and read it before every new piece. Reuse the loved details when a new piece needs a seat, a centrepiece or a hanging detail, and don't "fix" them away in a check pass. Turn every flag into a rule.
+
+Below are the notes from one review of a nine-way sawhorse comparison sheet (Nov 2026), written as general moves. The variant names refer to the influence-led set in `influence-weighting.md`.
+
+## Loved
+1. **Wrapped-cloth seat (WASH).** A leather pad built like a Korean wrapping cloth (bojagi), not a tube with straps: a superellipse pad with a soft crowned top and a flat underside, patchwork panels split by slightly different slanted seams in black, washed charcoal and washed indigo (no two neighbours the same tone), each end gathered into a knot with two flat cloth ears running out to soft points, deliberately asymmetric. A glossier leather tether runs from each knot, loops the rail neck and closes on a cast toggle. Slip the toggles and the seat lifts off. No buckles. Leather look: fine grain bump plus an uneven washed-dye multiply.
+2. **Petal-hem saddle (THREAD).** A washed indigo-grey bolster, fuller on top and flatter below, with a channel underneath that drops over the bar (it locates, it doesn't clamp). Scalloped petal flaps of slightly different lengths hang from both flanks. Two thin drawstring cords tie at the front with tails ending in metal aglets drawn to needles. Matte with sheen, soft dye clouds. Pairs with lightly oxidised metal.
+3. **Carved-feather stretcher (CARVED).** Moth wings made as fans of individually placed carved feathers from one root, the longest feather landing on the leg as a brace, with a solid web where it meets the leg so it casts as one. Carved on both faces. A claw-set centre stone at the thorax and small clusters where feathers converge. (Cap that centre stone to a buyable size: see `stone-sourcing.md`.)
+4. **Unequal chain drops.** Two fine chains of unequal length hang from one bead, each ending in a claw-set pear of a different colour. A hidden core wire threads the links so chain and pear cast as one with the body. The same pair works on pendants, ear pieces and clips.
+5. **Classic bolster.** Matte black leather bolster, piped ends, two glossier straps with liquid metal buckles.
+6. **Fine-wire moth body (THREAD).** A light body and lower wings drawn in fine washed wire with pale stones: the counterweight to the heavy carved versions.
+7. **Thorned vines on the posts (THORN).** A thorned vine winding up each post, thorns along its run. Thorns live on the long runs; the centre stays quiet.
+
+## Flagged
+- **"Wouldn't work as an actual sawhorse."** Horns, needles, stones and chains at the leg heads stood above the work surface with the seat off. Rule: `furniture-scale.md` item 5.
+- **"These motifs seem unrealised."** Tiny moths parked in a row under the rail read as half-built blobs. A motif must read at the piece's viewing distance: scale it up into a real member or drop it. Never use repeats as filler.
+- **"Not a fan" (all-liquid version).** All liquid ribbon with no carved counterweight and no clear motif reads as plumbing. Use liquid chrome as the accent, not the whole piece.
+- **"Far too literal."** A flat clip-art butterfly cut from plate. The motif is built from structure (veins, feathers, wire), may be partial or abstracted, and is never a stencil. Same for jewelry.
+- **"Would these wires be purchased?" / "This spike seems fragile."** Name bought hardware on the sheet (`furniture-scale.md` item 10); give exposed spikes thick roots and blunt tips (item 11).
+- **"Kinda busy."** Loops, stones, thorns and body overlapping at one centre. One focal point per piece with quiet space around it; where members cross, let one pass clean.
+- **"These are ugly" (comb of barbs on the feet).** Spikes in a straight even row read as a comb or saw blade. Spikes wind around a member, or the surface stays smooth.

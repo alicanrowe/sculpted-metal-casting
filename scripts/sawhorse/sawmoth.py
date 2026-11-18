@@ -1,4 +1,4 @@
-"""Cast-metal sawhorse: the Krenov sawhorse (vB proportions kept) recast as a cast-metal piece.
+"""Cast-metal sawhorse: the Krenov sawhorse (vB proportions kept) recast as a piece.
 Units: 1 = 1 cm, Z up, X along the rail, front is -Y. Metal is one sterling/steel SDF body built
 with the jewelry kit; the cushion is black leather (from krenov_model.py, slot filled, ends piped)
 with two leather straps closed by metal buckles.
@@ -49,9 +49,9 @@ def leg(s, sx, rng, ver):
     ty = 1.1 * np.sin(2.3 * math.pi * uu + 0.6) * (0.4 + 0.6 * np.sin(math.pi * uu))
     K.ribbon(s, np.column_stack([tx, ty, tz]), w=0.6, thin=0.7, ends=(0.2, 0.3), wkeys=[(0, 0.6), (0.3, 1.3), (0.6, 0.8), (1, 1.1)], k=0.5)
     top = pts[-1]
-    # two horns fork off the leg head and cradle the leather from below, curling up past its flanks to needle points
+    # two horns fork off the leg head and cradle the leather's lower flanks, ending just under the work top so the bare frame stays a sawhorse
     for sy in (1, -1):
-        h = np.array([[0, 64.5], [sy * 2.6, 68.6], [sy * 5.6, 71.2], [sy * 6.95, 74.2], [sy * 7.05, 77.2], [sy * 6.6, 79.0], [sy * 6.15, 79.6]])
+        h = np.array([[0, 64.5], [sy * 2.6, 68.6], [sy * 5.6, 71.2], [sy * 6.7, 73.3], [sy * 6.8, 73.9]])   # p6: tips stop under the 74.3 work top (seat-off rule)
         hp = sdf.catmull(np.column_stack([np.full(len(h), top[0]), h]), 10)
         v2.blade(s, hp, lambda t: 1.35 * (1 - t) ** 0.9 + 0.12, lambda t: 0.95 * (1 - t) ** 0.7 + 0.12, normal=(1, 0, 0), k=0.6,
                  grooves=10, both=True, gr=0.16, barb=0.5, groove_span=(0.1, 0.6))
@@ -130,6 +130,21 @@ def buckle(s, sx, rng):
     tong = np.array([(x0 - sx * 0.2, y0 - 0.15, z0), (x0 + sx * 0.8, y0 - 0.35, z0 + 0.1), (x0 + sx * (a + 0.7), y0 - 0.25, z0 + 0.25)])
     K.ribbon(s, tong, w=0.28, thin=0.8, ends=(0.0, 0.6), k=0.15)
     s.sphere(tong[-1], 0.2, k=0.1)
+
+
+# Furniture stones are real stones: the kit works in jewelry units, but here 1 unit = 1 cm, so a "5" stone would be
+# 50 mm. Cap every claw-set stone at the largest common calibrated faceted size for its species (stone check, Nov 18).
+STONE_CAP_CM = {"amethyst": 2.0, "citrine": 2.0, "topaz": 1.8, "londonblue": 1.6, "aquamarine": 1.0, "garnet": 1.0,
+                "moonstone": 0.8, "labradorite": 1.0, "peridot": 0.8}
+_prong0 = Mo.prong
+
+
+def _capped_prong(s, st, c, D, kind, L=None, **kw):
+    cap = STONE_CAP_CM.get(kind, 1.0)      # furniture stones are rounds (the jewelry oval table is in mm)
+    return _prong0(s, st, c, min(D, cap), kind, L=None, **kw)
+
+
+Mo.prong = _capped_prong
 
 
 def build_metal(ver="p1", seed=7):
