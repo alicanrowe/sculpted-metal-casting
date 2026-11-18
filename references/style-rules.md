@@ -51,6 +51,8 @@ used in `client-picks.md`. Read this before any design or redesign, and check ne
 - **One focal point and quiet space.** Busy centres get flagged; let crossing members pass clean.
 - **Motifs must read at viewing distance**, or get scaled up into real members, or dropped.
 - **Variants change the silhouette**, not just the colour or stones.
+- **Leather grips are twisted, cross-stitched leather cords** (client pick 9, the client's shop photos): round tan cords, one pale
+  X-stitched seam each, several twisted into a rope. Applies to every leather section on any handle or wrap.
 - **A liked change goes everywhere.** When the client likes an improvement on one piece of a set, roll it out to every
   related piece in that piece's own language, and push it live ("keep the updates eveyrwhere its a rule").
 - **No hexagon cages.** A hexagon frame with a block hub on tension rods reads as hardware, not sculpture (Edge r9
@@ -81,6 +83,12 @@ Small random wing/outline differences read as mistakes. Either mirror the pair, 
   sdf.py): the serration now scales with min(1, pitch / 0.28), so jewelry (pitch 0.28 or more) is unchanged and a
   cm feather with pitch 0.05 gets a smooth edge. Narrow vanes (W about 0.13 to 0.17 x L) read as feathers; broad
   ones (0.2 x L and up) read as leaves even with a smooth edge.
+- At cm scale leave `notches` at 0. A split notch on a 2 to 4 cm feather reads as a sawtooth (palm leaf), and where
+  it cuts through a thin vane it punches a round hole. Keep ragged ends for a deliberate tear only.
+- Five feathers or points radiating evenly in a ring read as a pentagram (Thorn rose round 2). Use an uneven count
+  (seven) and unequal lengths, or turn them all one way.
+- A moth hanging head-down reads only when something says "hanging": hooked claws gripping the top member like a
+  bat's feet, a slim abdomen and a clearly bigger head. Feather plumes beside the abdomen read as ears.
 - Radiating separate feathers (a star of them) also read as a leaf. Shingle them (each overlapping the next), or
   turn them all the same way round a centre like rose-window mouchettes, and keep it to five or fewer.
 - A frame with straight jambs that run down below the subject and end in hooks reads as a stool or a table. End
