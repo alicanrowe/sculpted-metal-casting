@@ -9,6 +9,10 @@
 #      KIT_DIR  folder holding make.py and the kit (default: scripts/kit next to this file)
 set -u
 n=$1
+# Never render on the client's own computer (a Mac): renders run on cloud machines, or a render farm for big jobs.
+if [ "$(uname -s)" = "Darwin" ] && [ -z "${ALLOW_LOCAL_RENDER:-}" ]; then
+  echo "refusing to render on a Mac: run this on a cloud machine (or a farm). ALLOW_LOCAL_RENDER=1 only if the owner asked for it."; exit 3
+fi
 D=${KIT_DIR:-$(cd "$(dirname "$0")/kit" && pwd)}
 W=${WORK:-/tmp/mb_rw}; PY=${PY:-python3}; mkdir -p "$W"
 OQ=${OUTSQ:-$PWD/squares}; mkdir -p "$OQ/_logs"

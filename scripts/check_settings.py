@@ -11,7 +11,8 @@ For each stone it samples the metal around the girdle and reports:
            over) in enough places that the stone can't lift out: 3+ separate holds with no gap of 180 deg or more,
            4+ for ovals, pears and marquises (L/D > 1.2), or a continuous bezel.
   SEAT     metal under the girdle (a bearing ledge, gallery or seat) all the way round, same spacing rule.
-  CLEAR    the stone's own volume is free of metal, so it can drop into its seat (a buried stone fails).
+  CLEAR    the stone's own volume is free of metal, so it can drop into its seat: more than 10% of sample points
+           inside metal fails (under 10% is mesh smoothing at the seat edge, or a pear checked as an ellipse).
   SPACING  girdles don't touch or crowd: at least 0.3 mm of metal between neighbouring stones.
 A stone with no metal at its girdle at all is FLOATING. Exit code 1 if any stone fails.
 
@@ -71,8 +72,8 @@ class Local:
     not-quite-watertight meshes and fast without embree."""
     def __init__(self, mesh, c, R):
         import trimesh
-        near = np.linalg.norm(mesh.vertices - c, axis=1) < R
-        f = np.nonzero(near[mesh.faces].any(1))[0]
+        T = mesh.triangles                          # faces whose bounding box meets the ball's box (big faces too)
+        f = np.nonzero(((T.min(1) <= c + R) & (T.max(1) >= c - R)).all(1))[0]
         self.m = mesh.submesh([f], append=True) if len(f) else None
 
     def contains(self, q):
@@ -107,7 +108,8 @@ def check(mesh, stones, unit_mm=1.0, m=72):
                 seat |= loc.contains(q)
         # CLEAR: points inside the stone (crown and pavilion, shrunk 15%) must not be metal
         inner = []
-        for f, h in ((0.80, 0.03), (0.55, 0.10), (0.75, -0.06), (0.55, -0.18), (0.30, -0.30)):
+        layers = ((0.80, 0.03), (0.55, 0.10)) if st.get("bead") else ((0.80, 0.03), (0.55, 0.10), (0.75, -0.06), (0.55, -0.18), (0.30, -0.30))
+        for f, h in layers:                   # a bead stone sits proud on its grains: only its top half must be clear
             inner.append(to3(P[::3] * f, h * W))
         inner.append(c[None, :] + n * 0.05 * W)
         inner = np.vstack(inner)
@@ -122,7 +124,7 @@ def check(mesh, stones, unit_mm=1.0, m=72):
         else:
             if not hold_ok: verdict.append(f"HOLD ({len(hr)} holds, widest gap {360 * hg // m} deg; needs {need})")
             if not seat_ok: verdict.append(f"SEAT ({len(sr)} supports, widest gap {360 * sg // m} deg)")
-        if buried > 0.03: verdict.append(f"CLEAR ({buried:.0%} of the stone is inside metal: it can't drop in)")
+        if buried > 0.10: verdict.append(f"CLEAR ({buried:.0%} of the stone is inside metal: it can't drop in)")
         out.append(dict(i=i, kind=st.get("kind"), size=f"{L:g}x{D:g}" if abs(L - D) > 0.05 else f"{D:g}",
                         holds="bezel" if cont else len(hr), hold_gap_deg=360 * hg // m, seat_cover=round(float(seat.mean()), 2),
                         buried=round(buried, 3), verdict="OK" if not verdict else "; ".join(verdict)))
@@ -159,7 +161,7 @@ def main():
     res = check(mesh, st, 10.0 if a.units == "cm" else 1.0)
     bad = 0
     for r in res:
-        print(f"  {r['verdict'][:9]:9s} #{r['i']:<3d} {r['kind'] or '?':11s} {r['size']:>8s}  holds {r['holds']!s:5s} gap {r['hold_gap_deg']:3d} deg"
+        print(f"  {('OK' if r['verdict'] == 'OK' else 'FAIL'):4s} #{r['i']:<3d} {r['kind'] or '?':11s} {r['size']:>8s}  holds {r['holds']!s:5s} gap {r['hold_gap_deg']:3d} deg"
               f"  seat {r['seat_cover']:.2f}  buried {r['buried']:.2f}" + ("" if r["verdict"] == "OK" else "   <- " + r["verdict"]))
         bad += r["verdict"] != "OK"
     print(f"{len(res) - bad} of {len(res)} stones settable" + ("" if not bad else f"; {bad} FAIL"))

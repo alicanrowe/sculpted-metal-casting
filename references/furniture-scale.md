@@ -69,3 +69,6 @@
     that contact is a knife-thin join that cracks. List those edges (`np.unique(m.edges_sorted, axis=0,
     return_counts=True)`, count != 2), put a 1.5 mm fillet bead (smooth sphere, k 0.1) at each, and re-mesh until the
     count is 0. The Carved sawhorse had four (18 Nov 2026); the beads are invisible in renders.
+
+## Buildable checks
+Before rendering a furniture piece with stones or a leather seat, run `scripts/check_settings.py --units cm` on its stones and `scripts/check_soft_parts.py` on its straps and closures (`references/buildable.md`). The seat must lift off once its closures are undone.

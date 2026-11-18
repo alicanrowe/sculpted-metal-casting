@@ -104,7 +104,7 @@ def build(name, mode="preview"):
     info = dict(name=name, watertight=bool(m.is_watertight), volume_cm3=round(abs(m.volume) / 1000, 3),
                 sterling_g=round(abs(m.volume) / 1000 * 10.36, 1), size_mm=[round(float(x), 1) for x in m.extents],
                 stones=[dict(kind=r["kind"], D=r["D"], L=r["L"], bead=bool(r.get("bead")),
-                             **{k: r[k] for k in ("c", "n", "e1", "setting") if k in r}) for r in stones])   # c/n/e1: check_settings.py
+                             **{k: r[k] for k in ("c", "n", "e1", "setting", "shape", "outline") if k in r}) for r in stones])   # c/n/e1: check_settings.py
     json.dump(info, open(os.path.join(OUT, name + ".json"), "w"), indent=1)
     print(info["sterling_g"], "g", info["size_mm"], "bodies", m.body_count, flush=True)
     if mode == "stl":          # casting file only, no render: <OUTDIR>/<piece>.stl + .json (run check.py on the folder)
