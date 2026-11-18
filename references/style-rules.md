@@ -54,3 +54,9 @@ used in `client-picks.md`. Read this before any design or redesign, and check ne
 
 Check before showing any design: hold the render next to this list and the pinned picks. If a line fails, fix it
 first. If the client says something about taste that isn't here, add it in the same session.
+
+## Asymmetry (client, r4 review)
+Small random wing/outline differences read as mistakes. Either mirror the pair, or make the asymmetry big and obvious (one wing clearly reshaped, one dominant element) so it reads as intent. Keep stone colours to one species per piece unless asked.
+
+## No borrowed brand motifs (client, r4 review)
+- No gothic cross / dagger / fleur-de-lis terminals. They read as a Chrome Hearts rip-off. Tails end in organic insect forms (tapering abdomen, curl) with no nub.

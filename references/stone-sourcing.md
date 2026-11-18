@@ -29,3 +29,8 @@ Traps that have already happened:
 
 ## Furniture caps: snap in furniture units
 `moira.prong` snaps rounds in mm and clips them to 1.5 to 10. In a cm furniture kit that turned every cap under 1.5 cm back into a 15 mm stone, so 1.0 and 0.8 cm caps didn't hold. The sawhorse's `_capped_prong` (scripts/sawhorse/sawmoth.py) now caps at `STONE_CAP_CM`, snaps down to a stock round in cm (`CAL_R_CM`, 1.5 to 20 mm) and sets it with `v2.claws` directly. Use the same pattern for any kit that isn't in mm, then confirm with `check_stones.py --furniture-cm` on the written stones json.
+
+## Client colour preference (18 Nov 2026)
+the client finds deep stones "a lil dark". Default to the light end of each species: rhodolite or malaya garnet over
+almandine, sky or swiss blue topaz over london blue, pale (rose de France) amethyst, light aquamarine, morganite.
+All of these are stock calibrated and cheap to mid-priced.

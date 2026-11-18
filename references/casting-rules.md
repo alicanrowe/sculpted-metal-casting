@@ -29,3 +29,6 @@ Measure with `check.py`. It ray-samples the wall and wire thickness and reports 
 
 ## Weight
 `check.py` and `make.py` report sterling grams (10.36 g/cm³) and pennyweight. Use it to price metal and to catch pieces that are far heavier than they look. A furniture frame can reach several litres of metal (one sawhorse variant came out near 6,600 cm³), which is a cost and weight decision for the client, not a detail.
+
+## Openings (client flag, r4 review: "not sure these tight lattices are possible irl")
+Wire thickness is checked, but the gaps between wires are not. Tight lattice openings are the real risk: investment between close wires can break or not fill, and the inside can't be cleaned or polished. Keep every opening at least about 1.0 mm across (1.5 mm where it must be polished). Add a gap check to check.py before the next round.

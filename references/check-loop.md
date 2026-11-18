@@ -30,3 +30,10 @@ Shared-code cause (if known): ...
 | Same silhouette across a family | seed only drives stones | let the seed drive the layout |
 | Stone invisible in renders | clear glass on white, or hidden by metal | darker bezel edge, more absorption, or move the stone |
 | Cropped thumbnail | compose margin | re-frame that view |
+
+## Dark-studio renders: flat steel goes black
+On a pure black studio (world strength 0), flat polished plates such as saw blades, chisel faces and fleam blades
+have nothing to reflect and render as black slabs. Keep the background black to the camera, but give reflections a
+soft grey gradient sky: a Light Path "Is Camera Ray" mix in the world. Give the steel roughness 0.3, not 0.2.
+Found 18 Nov on the Moth tools v2 quick pass. Frame each view by projecting the bbox corners into camera space, not
+from the bbox size alone, or tall pieces seen from an angle get cropped.
