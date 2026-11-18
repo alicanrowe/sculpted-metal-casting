@@ -115,7 +115,11 @@ def _prim(P, i, x, y, z):
         lx = P[i, 7] * ox + P[i, 8] * oy + P[i, 9] * oz
         ly = P[i, 10] * ox + P[i, 11] * oy + P[i, 12] * oz
         lz = P[i, 13] * ox + P[i, 14] * oy + P[i, 15] * oz
-        return _feather(P, i, lx, ly, lz)
+        d = _feather(P, i, lx, ly, lz)
+        # clip to the feather's own bounding box: far from the feather its field is not a distance, and inside
+        # blocks woken by other parts it left hairline slivers (sawhorse round, Nov 18)
+        bx = max(P[i, 19] - x, x - P[i, 22]); by = max(P[i, 20] - y, y - P[i, 23]); bz = max(P[i, 21] - z, z - P[i, 24])
+        return max(d, max(bx, max(by, bz)))
     ox, oy, oz = x - P[i, 4], y - P[i, 5], z - P[i, 6]
     lx = P[i, 7] * ox + P[i, 8] * oy + P[i, 9] * oz
     ly = P[i, 10] * ox + P[i, 11] * oy + P[i, 12] * oz
@@ -404,7 +408,13 @@ def save_stl(V, F, path, smooth=0):
     import trimesh
     m = trimesh.Trimesh(V, F, process=False)
     if smooth:
+        V0 = np.array(m.vertices)
         trimesh.smoothing.filter_taubin(m, lamb=0.5, nu=-0.53, iterations=smooth)
+        # Taubin flings the odd non-manifold vertex (where engraved barbs touch) centimetres away, which rendered
+        # as straight hairlines. Anything that moved more than a voxel's worth goes back where marching cubes put it.
+        e = np.linalg.norm(V0[F[:, 0]] - V0[F[:, 1]], axis=1); vox = float(np.median(e)) * 1.6
+        Vs = np.array(m.vertices); bad = np.linalg.norm(Vs - V0, axis=1) > vox
+        Vs[bad] = V0[bad]; m.vertices = Vs
     m.fix_normals()
     m.export(path)
     return m

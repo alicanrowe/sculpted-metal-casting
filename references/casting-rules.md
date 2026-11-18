@@ -21,5 +21,10 @@ Measure with `check.py`. It ray-samples the wall and wire thickness and reports 
 - Loose bits usually come from stone-seat cuts that sever a claw tip, or a carved groove that cuts a sliver free. Fix the generator (move the seat, shorten the cut). Don't delete islands by hand on one piece.
 - Watertightness: a mesh can be one body and still report `watertight: false` after export. Repair it before printing (for example with manifold3d or a mesh-repair pass in your slicer), and re-check.
 
+## Mesh artifacts
+- **Hairline wires in renders.** Taubin smoothing in `sdf.save_stl` can fling the odd non-manifold vertex (where engraved barbs touch) far from the surface, which renders as straight hairlines. `save_stl` now puts back any vertex that moved more than about a voxel. If you still see hairlines, look for touching engraved details.
+- **Feather slivers.** The carved feather primitive's field is only a distance near the feather, so it is clipped to the feather's own bounding box. Without that clip it left hairline slivers inside blocks woken by other parts.
+- **Join parts in the geometry, not with struts.** `make.bridge` adds short struts to join floating metal. Treat it as a safety net. A strut where the design didn't ask for one reads as a rod; overlap the members in the builder so they fuse instead.
+
 ## Weight
 `check.py` and `make.py` report sterling grams (10.36 g/cm³) and pennyweight. Use it to price metal and to catch pieces that are far heavier than they look. A furniture frame can reach several litres of metal (one sawhorse variant came out near 6,600 cm³), which is a cost and weight decision for the client, not a detail.

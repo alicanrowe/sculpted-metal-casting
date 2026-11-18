@@ -35,5 +35,6 @@ Read `references/furniture-scale.md`. The worked example (`scripts/sawhorse/`) k
 - No bead rows anywhere: no strung beads, ladder ticks, dot rows, milgrain, rope or knurled rims. They read machined.
 - Every stroke swells and ends in a needle. No even-gauge tubes, no ball ends, no straight rods.
 - Stones are stock calibrated sizes. Rounds of 2 mm and under are bead-set, centre ovals and drops get claws, wing panes sit in 0.7 mm open-backed bezels.
+- Join members in the geometry so they fuse; `make.bridge` struts are a safety net, not a design tool.
 - Don't edit shared code while renders that import it are running.
 - One piece per machine when rendering in bulk.
