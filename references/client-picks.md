@@ -12,6 +12,7 @@ Below are the notes from one review of a nine-way sawhorse comparison sheet (Nov
 5. **Classic bolster.** Matte black leather bolster, piped ends, two glossier straps with liquid metal buckles.
 6. **Fine-wire moth body (THREAD).** A light body and lower wings drawn in fine washed wire with pale stones: the counterweight to the heavy carved versions.
 7. **Thorned vines on the posts (THORN).** A thorned vine winding up each post, thorns along its run. Thorns live on the long runs; the centre stays quiet.
+8. **The bird's-foot foot (WASH).** "Does the best job at being consistent with the theme and fitting the look of its other design elements." A crane's foot built from the same bone members as the legs: a long front toe and a shorter back toe lying on the floor with bearing pads under their ends, a small inner toe, and on each toe a claw needle whose root is as thick as the toe, curling up and back over the toe rather than out into the room. The leg's tendon runs down into it. It works because the foot is the leg continuing, so the piece reads as one creature.
 
 ## Flagged
 - **"Wouldn't work as an actual sawhorse."** Horns, needles, stones and chains at the leg heads stood above the work surface with the seat off. Rule: `furniture-scale.md` item 5.
@@ -21,3 +22,6 @@ Below are the notes from one review of a nine-way sawhorse comparison sheet (Nov
 - **"Would these wires be purchased?" / "This spike seems fragile."** Name bought hardware on the sheet (`furniture-scale.md` item 10); give exposed spikes thick roots and blunt tips (item 11).
 - **"Kinda busy."** Loops, stones, thorns and body overlapping at one centre. One focal point per piece with quiet space around it; where members cross, let one pass clean.
 - **"These are ugly" (comb of barbs on the feet).** Spikes in a straight even row read as a comb or saw blade. Spikes wind around a member, or the surface stays smooth.
+- **"Why do they all have elf shoes."** One stock foot on every variant: a tapering toe sweeping along the floor and flipping up into a curled tip. A foot is the leg continuing in the same members and material language (see loved item 8), and variants don't share one stock foot.
+- **"The literal bug sucks."** A flat butterfly with cut-out wing holes and curled antennae pinned at the crossing of four rods. Second strike for literal insects. A hub where members meet is a structural knot the rods grow out of, never a pictogram.
+- **"This handle is awful."** A tidy, generic ornamental handle on a dark moth-themed case. Hardware for an existing piece comes out of that piece's own motifs, and for a dark piece it goes scarier and more gothic. List the motifs already on the piece before drawing hardware; ornament that could go on any box is rejected.
