@@ -58,3 +58,17 @@ render set for ornament). What fixed it, in order of effect:
   turns silver). Move the ramp to 0.6-0.75 and put the patina in the recesses with an AO node instead.
 - Polished steel needs something to mirror: give glossy rays a world with strip softboxes (a bright horizon band and a
   high band on dark), keep the camera seeing black. Round steel then shows light-dark-light bands instead of a milky sheen.
+
+## Modelling the stitched leather cord (client pick 9), what it took to match the photos
+Four passes against the shop photos on the Moth saw and fork grips:
+- Scale first: cord about 0.16 in across on a 0.4 in grip, thread 0.5 mm. At 0.115 in the thread was half the cord and the
+  seam read as rope. Six cords at about 58 deg to the axis just close round the grip (n = 2 pi R cos(angle) / d).
+- Each cord is its own tube with a slight hand-rolled wobble in radius. Its seam is a dark cut-edge strip sunk along one
+  side, and the seam direction turns round the cord as it goes (about a turn per 1.3 in, random sign) so it shows on some
+  cords and hides on others, as in the twisted rope.
+- X stitch: per pitch (0.36 x cord diameter, +-15%) two thread segments cross the seam corner to corner, lifted just
+  proud; spacing is hand-varied. Too fine a pitch reads as a continuous zigzag braid.
+- Colour: tan veg-tan leather (base about 0.36, 0.20, 0.10 linear) with a large mottle and fine grain bump, cut edge much
+  darker. Too light reads as peach plastic.
+- Ends: tuck the cords 0.075 in under tapered blackened ferrules (core radius flaring to the bundle) with a rope band;
+  flat disc collars looked like washers, and tilted tube ends poke out of short collars.
