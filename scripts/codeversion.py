@@ -25,7 +25,8 @@ if __name__ == "__main__":
         bad = 0
         for ln in lines[1:]:
             if not ln.strip(): continue
-            h, f = ln.split(" ", 1)
+            h, f = ln.split(None, 1)  # accept md5sum-style double spaces too
+            f = f.strip()
             try:
                 now = md5(f)
             except FileNotFoundError:
