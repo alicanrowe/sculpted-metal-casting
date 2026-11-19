@@ -38,3 +38,24 @@ reference until it matches. References logged for this family:
   The bar for the chisel.
 - The client's earlier leather braiding references (re-requested; not in the project files yet).
 How round 2 answered: see check-loop.md ("Crazy low poly") and buildable.md ("Assembly check").
+
+## 9. Cross-stitched leather cord: the motif for every leather grip
+The client, 18 Nov 2026, with two shop photos (`img/leather_cord_xstitch_closeup.jpg`, `img/leather_cord_xstitch_loop.jpg`):
+"recursively train ur handle design for any leather section to this motif ... like on the saw handle".
+What the photos show:
+- Round leather cord in natural, vegetable-tanned tan (about 6 to 8 mm across), smooth and slightly glossy, with hand-dyed unevenness.
+- Each cord is closed by one seam running along it. The seam is a cross stitch (baseball X) in pale waxed linen thread, the X's sit
+  slightly proud with the darker cut leather edge showing between them. The seam spirals around the cord as the cord twists.
+- Several cords (four to six) are laid together and twisted into a loose rope, so seams appear and disappear as each cord turns.
+  Some cords show the stitched side, some the plain side. The X's are hand-spaced, not machine-even.
+Rule: any leather section on a handle, grip, wrap, strap or tether (tools, saw handles, hardware, seats' tethers) uses this:
+round stitched leather cords with a pale X-stitched seam, twisted together, instead of a flat wrap or a braided silk cord.
+Colour: the client's later pick (19 Nov) is red leather on the gothic tools, a deep oxblood red rather than the tan shown
+("perfect just make the leather red"); black where the palette calls for it. The thread stays pale.
+Model it as cords (tubes with a shallow seam groove) twisted round the grip core, with the X stitch as thin raised thread
+crossing the seam at slightly uneven spacing. Keep the X's hand-spaced (style rule 8: no machine-even rows).
+Later notes (19 Nov), with the same motif: "dont clip them", "always run a clipping check for everything always man".
+The X stitches must lie on the cords, never sink into them; cord ends sit in hollow collars. See `buildable.md`, check 5.
+Also: a spike on a steel rod is one piece of metal, sharp, flowing smoothly out of the rod ("make this spike sharp and
+smoothely go into the rest of the piece as its one piece of metal"); saw teeth carry no line through them; ornaments on a
+neck plate are never covered by the neck ("so the stained window motif isnt cut off").

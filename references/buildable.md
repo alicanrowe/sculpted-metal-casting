@@ -69,3 +69,20 @@ Run before every render of a piece built from many parts (each add() of a primit
    (tools go on from the side: a neck into a fork, a bail over a peg), lower until first contact. Then check no tool
    penetrates the stand more than 0.02 in and every tool touches it. A fork hook needs a long enough round neck under the
    collar for the prongs, and its upturned tips must reach past the widest part that hangs above them.
+5. **No clipping, ever (client rule: "always run a clipping check for everything").** Run it on every piece before
+   every render, whether or not the piece changed. Nothing may pass visibly into anything else:
+   - Soft parts (leather, cut edges, thread, cord) never pass into another part beyond leather compression (0.006 in;
+     thread 0.0015 in). Lay a stitch ON the surface: sample each leg round the cord's surface (cord radius plus thread
+     radius), never a straight chord through it; the over-leg of an X lifts a thread's width where it crosses; legs that
+     share a hole end a thread's width apart. Size twisted cords so they lie against each other (no core showing, no
+     cord passing into its neighbour) and ride on the core's real profile, bead included.
+   - A collar over cord ends is a hollow cup fitted to the cords (measure the cup wall from the cord vertices), with a
+     bore fitted to the core; skive the cord ends thin so the cup stays slim. A solid sleeve laid through cords clips.
+   - One piece of metal is one surface: a set saw tooth is the plate's own tooth with its tip bent (no second tooth plate
+     laid through it, which renders as a line through every tooth); a barb split from a tine starts inside the tine at
+     slightly less than the tine's section and draws out to a sharp point (no blunt cone stuck on, no coincident faces).
+   - Wound thread or wire: turns at least one diameter apart, the outer layer resting on the inner, the tail one strand
+     with its layer, routed round rims and guides rather than through them.
+   - Hard parts of different metals or wood that cross must be a real seat (a pin in its bore, a tang in its socket, an
+     inlay in its recess). The check lists every such joint with its depth; look at each new one on the render.
+   - An ornament (window, rivet, touchmark) must not be covered by another part: keep it clear of necks and collars.
