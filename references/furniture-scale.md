@@ -72,3 +72,10 @@
 
 ## Buildable checks
 Before rendering a furniture piece with stones or a leather seat, run `scripts/check_settings.py --units cm` on its stones and `scripts/check_soft_parts.py` on its straps and closures (`references/buildable.md`). The seat must lift off once its closures are undone.
+
+## Cast relief replacing a flat screwed plate (19 Nov, jail bars)
+When a flat laser-cut plate is replaced by a casting:
+- Keep a flange that is the old plate's outline minus the screw holes minus the opening, at the old thickness, so it fits the same screws.
+- Build the relief in the piece frame inside the rail opening, with about 1.5 mm of clearance and no deeper than the rails.
+- Union the flange and the relief with manifold. A face-to-face contact leaves two bodies, so add a thin bond skin (about 0.3 mm) where they meet.
+- Check that the flange bounds match the old plate. Run the clipping check against every model node and compare it with the old plate's own contacts: a contact that was already there (a plush toy resting on the plate, say) is allowed, and anything new is not.

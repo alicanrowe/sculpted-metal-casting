@@ -32,3 +32,8 @@ Measure with `check.py`. It ray-samples the wall and wire thickness and reports 
 
 ## Openings (client flag, r4 review: "not sure these tight lattices are possible irl")
 Wire thickness is checked, but the gaps between wires are not. Tight lattice openings are the real risk: investment between close wires can break or not fill, and the inside can't be cleaned or polished. Keep every opening at least about 1.0 mm across (1.5 mm where it must be polished). Add a gap check to check.py before the next round.
+
+## Braids and twisted bars (19 Nov, cast jail bars)
+- **`braid` pitch is a fraction of the path's length, not cm.** Arc length is normalised, so the same pitch twists lazily on a long bar and tightly on a short one. Resample the path densely (about 0.5 cm steps) and pick pitch per member length (0.13 to 0.24 on a 20 cm lancet, 0.45 to 0.6 on a 4 cm one).
+- **Twisted pairs must not be near-tangent.** When the twist amplitude is close to the strand radius, the strands only just touch and the mesher leaves non-manifold edges. Keep the amplitude clearly below the radius (0.075 to 0.095 cm for 0.08 to 0.12 cm strands worked) so the strands fuse. Then re-mesh at a slightly shifted VOX (for example 0.033, 0.037 or 0.031 around 0.035) if any edge is still non-manifold. Don't fix it with pymeshfix, which drops volume.
+- Guard the retry: retry once over a fixed list of VOX values, then stop. A recursive retry ran out of memory.
