@@ -79,3 +79,8 @@ When a flat laser-cut plate is replaced by a casting:
 - Build the relief in the piece frame inside the rail opening, with about 1.5 mm of clearance and no deeper than the rails.
 - Union the flange and the relief with manifold. A face-to-face contact leaves two bodies, so add a thin bond skin (about 0.3 mm) where they meet.
 - Check that the flange bounds match the old plate. Run the clipping check against every model node and compare it with the old plate's own contacts: a contact that was already there (a plush toy resting on the plate, say) is allowed, and anything new is not.
+
+## Lessons, 19 Nov 2026 (Thread r10)
+- Kit pieces built for flat jewellery (normal +Z) can go wrong when the motif stands upright in a furniture frame. A `Scene.ellipsoid` call left on its default `zhint=(0,0,1)` takes its radii in world axes, not the motif's plane. On an upright moth, the body's "molten collar" put its 3 cm radius into the depth and buried the thorax stone. Wrap those calls so the hint is the plane normal, and run `check_settings.py` after any kit motif is placed in a new orientation.
+- Rebuild from the file that made the passing round, not from a similarly named older one. Before re-meshing, check that the stone list and frame you build reproduce the last passing STL's stones (kind, size, position). One round used an earlier source by mistake, which silently undid that round's capped stones and blunt ends.
+- A smooth union between wires and blades can pinch off a few-mm fleck at meshing. `mesh_metal` drops it as an island and reports it. A dropped fleck under about 0.2 cm2 next to a stone is harmless; anything bigger needs a bridge.
