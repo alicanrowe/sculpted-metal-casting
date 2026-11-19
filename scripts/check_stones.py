@@ -31,6 +31,7 @@ SPECIES = {
     "imperialtopaz": (3.53, 8, 14, "30-300", "imperial (peach-gold) topaz is pricey; madeira citrine is the cheap swap"),
     "whitetopaz": (3.53, 18, 35, "1-6", "white topaz: cheap bright stand-in for diamond"),
     "iceaqua":    (2.70, 10, 18, "15-200", "pale aquamarine: the lightest grades are cheaper than deep blue"),
+    "iolite":     (2.61, 8, 12, "5-40", "iolite (water sapphire): periwinkle violet-blue, cheap, clean stock to ~8 mm"),
 }
 SWAP = {
     "aquamarine": "sky blue topaz (same colour, cheap in large sizes) or keep aquamarine at 10 mm or less",

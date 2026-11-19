@@ -24,3 +24,5 @@ A small piece (under 25 mm) automatically meshes at 0.6x the voxel size.
 - Missing dependencies stall every job at once (`numba` was left out of the setup line once). Test the setup line on a clean machine before fanning out.
 - The render script skips a piece whose square already exists. Delete or move stale squares before a re-render.
 - Earring pairs report two bodies. Write that into the check so render jobs don't flag it.
+
+- Parallel machines on a shared mount: set NUMBA_CACHE_DIR=/tmp/nbcache (machine-local). Several machines compiling into the shared __pycache__ at once leave truncated cache files and the run fails with "_pickle.UnpicklingError: pickle data was truncated" (Nov 19).
