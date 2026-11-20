@@ -1,6 +1,6 @@
 # Rendering in bulk
 
-One render uses every core, so bulk rendering is split: one piece per machine, never several in parallel on one box. Don't render on a personal laptop; use cloud machines, or a render farm for animations.
+One render uses every core, so bulk rendering is split: one piece per machine, never several in parallel on one box. Don't render on a personal laptop; use cloud machines, or a render farm for animations. Upload, submit and download with the `render-farm` skill (github.com/alicanrowe/render-farm): headless Blender upload plus the GarageFarm web manager, so nobody has to click renderBeamer.
 
 ## Settings that held up
 | Pieces | Timeout (TO) | Voxel (VOXO) | Resolution | Samples |
