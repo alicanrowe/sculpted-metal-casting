@@ -7,7 +7,9 @@ Render, compare against the named references, list what's off, fix, repeat until
 2. Open the square next to two or three reference images, one per lead influence.
 3. Write what reads robotic, specifically and by location ("upper-left wing: two stones touch"; "leading edge: eight evenly spaced beads"). Note which shared function causes it if you can tell (for example `vein_wing`, `hyo_flourish`, `_clipbar`, the claw/seat cut).
 4. Decide: is it this piece's seed, or the shared generator? Shared problems are fixed once, centrally, then every affected piece re-renders.
-5. Re-render and check again. Stop when the list is empty or only has taste calls for the client.
+5. Run the design-coherence check (`references/design-coherence.md`): a part inventory and one close-up per part on a
+   contact sheet. A part in a different language (plain chrome on a carved piece, a ball on a stalk) fails.
+6. Re-render and check again. Stop when the list is empty or only has taste calls for the client.
 
 ## Report format (one per piece)
 ```
@@ -22,7 +24,8 @@ Shared-code cause (if known): ...
 | Flag | Usual cause | Fix |
 |---|---|---|
 | Even-width veins and rims | stroke helper with constant radius | width keys that swell and taper (`wisp.organic()` on) |
-| Ball ends | sphere terminal | ribbon `ends` to a needle |
+| Ball ends | sphere terminal | ribbon `ends` to a needle; at furniture scale keep the section >= 4 mm and round it off |
+| One part plain on a carved piece | a rule (work line, spikes) met by deleting the style there | engrave the language into the surface (`design-coherence.md`) |
 | Bead row, ladder ticks, dot rows, milgrain | evenly spaced barbs or notches, `bead_row`, `grain=True` | remove, or randomise spacing and size; `grain=False` |
 | Loose chips near stones | seat cut severs a claw tip | move the seat or shorten the cut; re-mesh and count bodies |
 | Straight rods through a body | clip bar or pin builder | fold the bar into the form |
