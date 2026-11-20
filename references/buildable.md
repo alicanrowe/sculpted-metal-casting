@@ -36,6 +36,31 @@ python scripts/check_soft_parts.py --rigid metal.stl --soft leather.stl --t 0.30
   off).
 - Every soft body is one closed mesh. Cracked meshes show up as black lines in close-ups.
 
+## Soft-part build spec (`scripts/check_soft_build.py`): every non-rigid part
+```
+python scripts/check_soft_build.py --frame metal.stl --spec saddle_spec.json --units cm
+```
+check_soft_parts.py checks shapes. This one checks construction, and it runs on every piece with any leather, lace,
+strap, cushion, foam or board. Model each soft part as its own mesh (board, foam, cover, flaps, laces, tips), not one
+blob, and list it in a spec json (see the script's docstring; Thread's `saddle_r11.py` SPEC is a worked example) with:
+material and thickness (or lace diameter); how it is cut and formed; how it attaches (method, to what, fasteners, and
+what a staple passes through); how it is tensioned (laces, straps, covers); how it opens (closure type and release);
+what load it takes; how it is replaced. Plus the seat height, the cover envelope, and the load paths: the sitter's
+weight down to the frame, and the uplift path that keeps the cushion on when the piece is lifted.
+It fails on: a missing or placeholder field; a part that does not touch what it is fixed to; leather or laces passing
+into the frame or into each other (a lace through a flap where there is no hole); any lace, cord, strap or hardware over
+the sitting surface; a board or foam sticking out of the cover; a broken load path.
+Rules it encodes:
+- A cushion is a board (with a slot or cleats that locate it on the frame), foam, and a cover stretched and stapled
+  under the board. Where the frame flares (legs into a rail) the board gets a relief notch, which also stops it sliding.
+- Flaps and skirts are fixed: a tab stapled or screwed under the board, sewn to a welt, or riveted. A flap edge buried
+  inside a cushion is fixed to nothing.
+- Ties go under the rail, never over the seat, and tie off with a knot that unties (a bow). Each end gets a tip.
+- Draw the build: an exploded diagram with each part's material and thickness and the fitting steps goes on the sheet.
+
+Why: on 20 Nov 2026 the client could not see how Thread's saddle would work in real life: drawstrings over the seat as
+closed rings with fused knots, flaps buried in a solid cushion, no materials. Every shape check had passed it.
+
 ## Moving and joined metal
 - No ball joints, umbrella ribs or wire outlines that would need assembly no caster can do in one pour. A part that
   moves is a separate casting with a real pin, clevis or hinge, and the sheet says how it goes together.
