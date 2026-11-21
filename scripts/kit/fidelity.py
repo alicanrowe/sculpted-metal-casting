@@ -10,7 +10,7 @@ What it changes against v2.realism (see references/render-fidelity.md for why ea
   - a real macro depth of field, AgX Medium High Contrast, adaptive sampling
 Scene units are mm (Blender treats them as metres), so the f-stop is scaled down by about 1000.
 
-Tuning (env): EXPO 0.4, SKY 0.55, SUN 4.5, SUNEL 22, SUNAZ 140, AOD 0.6 (mm), FSTOP 0.035,
+Tuning (env): EXPO 0.65, SKY 0.55, SUN 4.5, SUNEL 22, SUNAZ 140, AOD 0.6 (mm), FSTOP 0.035,
 CAV_LO/CAV_HI pointiness window (0.455 / 0.505), AO_LO/AO_HI (0.3 / 0.85).
 """
 import math
@@ -115,7 +115,7 @@ def apply(objs, cams=None):
         s.view_settings.look = 'AgX - Medium High Contrast'
     except TypeError:
         pass
-    s.view_settings.exposure = _env("EXPO", 0.4)
+    s.view_settings.exposure = _env("EXPO", 0.65)
     s.cycles.use_adaptive_sampling = True; s.cycles.adaptive_threshold = 0.01
     s.cycles.blur_glossy = 0.3; s.cycles.caustics_refractive = False
     ctr = (lo + hi) / 2

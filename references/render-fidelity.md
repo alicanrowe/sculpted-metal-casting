@@ -16,7 +16,7 @@ squares did not.
 | 4 | **The piece sits somewhere.** A hand or a surface, a contact shadow, scale you can feel. | Floating on transparent then flattened to white: no shadow, no ground, no scale. | `white_sweep()`: the background stays white (the client's rule), but it is a real sweep that keeps the cast shadow. An in-hand or on-surface shot is a separate, optional hero that needs the client's OK, since it breaks the white rule. |
 | 5 | **Lens.** Close focus with shallow depth of field: the near edge sharp, the far side softening. | Everything pin-sharp at 100 mm and infinite depth of field, which reads as CG. | Macro depth of field focused on the piece's centre. Scene units are mm, so `FSTOP 0.035` is about f/16 on a real macro. |
 | 6 | **Resolution and samples.** Every barb resolves. | 720 px per view at 24 samples, then denoised, so micro detail smeared into mush. | Final squares at `PRESO 1400` or more and `PSPPO 96` or more with adaptive sampling. Previews may stay cheap; anything shown may not. |
-| 7 | **Tone.** Deep blacks, bright clipped glints, a little warmth. | Standard or neutral AgX, mid-grey silver, no true blacks. | AgX Medium High Contrast, exposure about +0.4 on the white sweep. |
+| 7 | **Tone.** Deep blacks, bright clipped glints, a little warmth. | Standard or neutral AgX, mid-grey silver, no true blacks. | AgX Medium High Contrast, exposure about +0.65 so the sweep reads white (at +0.4 it rendered light grey, about 210 of 255). |
 
 What does *not* close the gap: more bounces, a different HDRI on the same soft tent, or a sharper denoiser. The
 first two rows are geometry and finish, and they matter more than all the lighting put together.
