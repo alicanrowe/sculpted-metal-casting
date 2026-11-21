@@ -372,7 +372,7 @@ def wormtrail_wrap():
     pc = Piece("gv_wormtrail_wrap", "flat")
     # inner: fine cable
     A = dict(Li=3.0, Wi=1.9, d=0.7)
-    n = 61
+    n = 69
     slots = [cable_slot(**A) for _ in range(n)] + [dict(Li=3.4, h=2.1, d=0.9, solid=bolt_clasp(3.4, 0.9), label="clasp_a")]
     for sl in slots[:-1]:
         sl["label"] = None
@@ -391,7 +391,7 @@ def wormtrail_wrap():
     v = up_in_slot(lean)
     cav, zc = flush_seat(1.5)
     bore = bore - orient_at(cav, r * v, v)
-    nb = 34
+    nb = 40
     sl2 = [bar_slot(bore, 4.5, 2.2, 0.95, B["Li"], lean=lean, label="bore")] + [cable_slot(**B) for _ in range(nb)]
     sl2.insert(18, dict(Li=4.0, h=2.4, d=1.0, solid=bolt_clasp(4.0, 1.0), label="clasp_b"))
     for k, sl in enumerate(sl2):
@@ -428,7 +428,7 @@ def detent_toggle():
     its six notches inside; the bar is the manual valve's spool."""
     pc = Piece("gv_detent_toggle", "flat")
     C = dict(Li=6.2, Wi=3.9, d=1.6)
-    n = 22
+    n = 30
     lean = 45.0
     # ring: lies flat, its eye leaning to meet the next link
     Rr, rw = 7.2, 1.6

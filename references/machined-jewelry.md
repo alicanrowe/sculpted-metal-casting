@@ -86,3 +86,8 @@ distressed with a grey patina. Round 3 followed that and dropped all liquid or s
 - **Swept bands:** hull three consecutive section rings per segment, or a long sweep falls apart into hundreds of
   bodies.
 - **Close-up hero view:** for a long necklace, frame the pendant with a 7-element view (direction, centre, size).
+- **Measure every chain's length before the final render** (`loop.L` from `lay`). A men's bracelet wants about
+  19 cm on the chain's line; two pieces came out at 15 and 16 cm and fit no wrist. Nested strands also need room
+  between loops or the leaning links of one clip the next: grow the outer strand, not the inner one.
+- **Fan-out jobs that share a temp kit folder must not run on one machine at once**; one job's setup deletes the
+  other's kit. Run them one after another or give each its own folder.
