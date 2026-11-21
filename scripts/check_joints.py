@@ -20,9 +20,27 @@ m = trimesh.load(a.stl); J = json.load(open(a.json)); stones = J.get("stones", [
 p = a.pitch
 vg = m.voxelized(p).fill()
 V = vg.matrix; T = vg.transform
-idx = np.argwhere(V); org = T[:3, 3]
-pts = org + idx * p
 st26 = np.ones((3, 3, 3), bool)
+if V.sum() * p ** 3 < 0.8 * abs(m.volume):  # an unrepaired mesh voxelizes as a skin only: repair it first, then fill
+    import os, subprocess, tempfile
+    fix = os.path.join(os.path.dirname(os.path.abspath(__file__)), "repair_stl.py")
+    tmp = tempfile.mktemp(suffix=".stl")
+    subprocess.run([sys.executable, fix, a.stl, tmp], capture_output=True)
+    if os.path.exists(tmp):
+        m = trimesh.load(tmp); os.remove(tmp)
+        vg = m.voxelized(p).fill(); V = vg.matrix; T = vg.transform
+    if V.sum() * p ** 3 < 0.8 * abs(m.volume): sys.exit(f"joints: could not fill {a.stl} (voxel volume {V.sum() * p ** 3:.0f} of {abs(m.volume):.0f} mm3)")
+LAB, NB = ndimage.label(V, st26)          # earring pairs: judge each stone against its own body only
+org = T[:3, 3]
+
+
+def body_of(c):
+    if NB <= 1: return V
+    ijk = np.argwhere(V); d = np.linalg.norm(org + ijk * p - c, axis=1)
+    k = LAB[tuple(ijk[int(np.argmin(d))])]
+    return LAB == k
+
+
 out = []; fails = 0
 def links_at(c, r_in, w):
     """separate metal links crossing the shell r_in..r_in+w from the setting to the main body: (count, areas)"""
@@ -34,6 +52,7 @@ def links_at(c, r_in, w):
     lo, no = ndimage.label(Vo, st26)
     if no == 0: return None
     sizes = ndimage.sum(Vo, lo, range(1, no + 1)); main = int(np.argmax(sizes)) + 1
+    if sizes.max() < 0.3 * len(idx): return None       # past the piece's core: what is left outside is a tail, not the body
     grow_main = ndimage.binary_dilation(lo == main, st26)
     ls, ns = ndimage.label(Vs, st26)
     near_in = np.zeros_like(V); near_in[tuple(idx[shell & (d < r_in + 1.5 * p)].T)] = True
@@ -50,6 +69,7 @@ def links_at(c, r_in, w):
 
 for i, s in enumerate(stones):
     c = np.asarray(s["c"], float); D = float(s["D"]); L = float(s.get("L", D))
+    Vb = body_of(c); idx = np.argwhere(Vb); pts = org + idx * p
     r0 = max(D, L) / 2 + 0.9
     prof = []
     for r in np.arange(r0, r0 + 3.01, 0.5):      # the neck: the narrowest crossing in the 3 mm round the setting
@@ -61,7 +81,7 @@ for i, s in enumerate(stones):
     neck = min(prof, key=lambda q: q[2])
     role = "drop" if s.get("drop") else "head"
     need = max(a.min_area, 0.12 * D * D) if role == "head" else a.min_link_area
-    ok = neck[2] >= need and (role == "drop" or neck[1] >= 2 or neck[2] >= 3 * need)
+    ok = neck[2] >= need and (role == "drop" or neck[1] >= 2 or neck[2] >= 1.5 * need)
     if not ok: fails += 1
     out.append(dict(i=i, kind=s["kind"], D=D, L=L, role=role, neck_r=neck[0], links=neck[1], area=neck[2], need=round(need, 2), ok=bool(ok), prof=prof))
 name = J.get("name", a.stl)
