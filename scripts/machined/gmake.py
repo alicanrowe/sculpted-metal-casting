@@ -16,7 +16,6 @@ Checks (all must pass before a render is shown):
 import sys, os, json, math, time
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__)); sys.path.insert(0, HERE)
-sys.path.insert(1, os.path.join(HERE, '..', 'kit'))   # jlib, v2, sdf, square: the shared render and studio code
 import mlib
 from mlib import M
 
@@ -184,7 +183,21 @@ def materials():
         else:
             b.inputs["Roughness"].default_value = rough
         return m
+    def antique(name, dist=0.45):
+        """polished silver, oxidised only where it is recessed (ambient occlusion), the way a jeweller antiques"""
+        m = princ(name, (0.97, 0.96, 0.945), 0, noise=(0.03, 0.06)); t = m.node_tree; N = t.nodes
+        b = N["Principled BSDF"]
+        ao = N.new("ShaderNodeAmbientOcclusion"); ao.inputs["Distance"].default_value = dist; ao.samples = 16
+        mr = N.new("ShaderNodeMapRange"); mr.inputs[1].default_value = 0.3; mr.inputs[2].default_value = 0.85
+        t.links.new(ao.outputs["AO"], mr.inputs[0])
+        mix = N.new("ShaderNodeMix"); mix.data_type = 'RGBA'
+        mix.inputs[6].default_value = (0.11, 0.105, 0.1, 1); mix.inputs[7].default_value = (0.97, 0.96, 0.945, 1)
+        t.links.new(mr.outputs[0], mix.inputs[0]); t.links.new(mix.outputs[2], b.inputs["Base Color"])
+        rr = N.new("ShaderNodeMapRange"); rr.inputs[3].default_value = 0.3; rr.inputs[4].default_value = 0.04
+        t.links.new(mr.outputs[0], rr.inputs[0]); t.links.new(rr.outputs[0], b.inputs["Roughness"])
+        return m
     return {
+        "antique": antique("g_antique"),
         "bright": princ("g_bright", (0.97, 0.96, 0.945), 0, noise=(0.03, 0.065)),
         "satin": princ("g_satin", (0.95, 0.945, 0.935), 0, noise=(0.13, 0.19)),
         "black": princ("g_black", (0.15, 0.145, 0.14), 0, noise=(0.2, 0.28)),
@@ -204,7 +217,7 @@ def leather():
 
 def ball_mat(kind):
     import bpy
-    col, dens, ior = {"ruby": ((0.9, 0.06, 0.16), 1.1, 1.76), "sapphire": ((0.93, 0.95, 1.0), 0.05, 1.76)}[kind]
+    col, dens, ior = {"ruby": ((0.92, 0.07, 0.17), 0.55, 1.76), "sapphire": ((0.93, 0.95, 1.0), 0.05, 1.76)}[kind]
     m = bpy.data.materials.new("ball_" + kind); m.use_nodes = True; t = m.node_tree; N = t.nodes
     b = N["Principled BSDF"]
     b.inputs["Base Color"].default_value = (*[0.8 + 0.2 * c for c in col], 1)

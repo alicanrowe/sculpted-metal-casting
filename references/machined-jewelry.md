@@ -45,3 +45,20 @@ and a machined piece is all edges. So this kit is exact CSG (manifold3d), and th
 - Renders are fast (30 to 70 s per square at 800 px, 48 samples), so the fan-out is about machine setup, not render time.
 - Pick piece types from the brief, one per working part, and never two of a type: the collection read as a set of
   parts from one machine, not a set of rings (see the sameness check in `check-loop.md`).
+
+## Round 2 lessons: liquid lines joined to turned parts
+Round 1 was all prismatic CSG and the client called every piece ugly, even though the concept was loved. Round 2
+fixed it by drawing the flowing part (here the oil) as SDF strokes that swell and taper (`oil.py`: `line`,
+`sdf_part`), with the machine only at the nodes as small exact CSG parts, joined with exact booleans.
+- `sdf_part` meshes, Taubin-smooths and merges into a Manifold. If marching cubes leaves a non-manifold vertex,
+  re-mesh at a slightly shifted voxel size; drop crumbs under 0.5 mm3.
+- Cut bores *after* the union, or the liquid line fills them and the spool clips.
+- A stroke with a fast radius change shows creases at its segment joints, which read as little dashes in the
+  render. Use more points (n 24) and a small joint blend (`kseg` 0.08).
+- A flat polished face (a gear, a back plate) reflects the studio as one white sheet and the piece washes out.
+  Turn fine V-grooves into the ground under it so the antique darkens it, and cross out gears with curved spokes.
+- Antique finish: an AO-driven mix (dark in recesses only) reads far better than black-painted parts.
+- A flat lozenge reads solid where a thin line with beads reads cheap: widen the line (r 4 or more, flat 3) and
+  set turned parts flush into it inside a narrow groove.
+- Check chains against famous designs: a link with a bar across its waist reads as one luxury house's anchor
+  chain. Use your own device (here a crimped hose ferrule) and graduate the links so the chain itself swells.
