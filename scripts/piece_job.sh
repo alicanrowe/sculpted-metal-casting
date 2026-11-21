@@ -23,6 +23,7 @@ for V in $VOXO $(python3 -c "print($VOXO*0.95, $VOXO*1.06, $VOXO*0.89, $VOXO*1.1
 done
 python3 check_stones.py --jewelry /tmp/piece_out/$P.json 2>&1 | tail -n +1
 python3 check_settings.py /tmp/piece_out/$P.stl /tmp/piece_out/$P.json > /tmp/piece_out/settings.txt 2>&1; SE=$?; tail -n 40 /tmp/piece_out/settings.txt; echo "settings exit $SE"
+[ -f check_joints.py ] && { python3 check_joints.py /tmp/piece_out/$P.stl /tmp/piece_out/$P.json > /tmp/piece_out/joints.txt 2>&1; JE=$?; tail -n 40 /tmp/piece_out/joints.txt; echo "joints exit $JE"; }
 } > "$R" 2>&1
 mv -f $B/squares/$P.jpg $B/squares/$P.prev.jpg 2>/dev/null   # render_square.sh skips a piece whose square exists: a re-run must not keep the old one
 OUTSQ=$B/squares KIT_DIR="$K" TO=$TO VOXO=$VOXO PY=python3 WORK=/tmp/piece_rw bash "$K/render_square.sh" $P >> "$R" 2>&1
