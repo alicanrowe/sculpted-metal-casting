@@ -62,3 +62,27 @@ fixed it by drawing the flowing part (here the oil) as SDF strokes that swell an
   set turned parts flush into it inside a narrow groove.
 - Check chains against famous designs: a link with a bar across its waist reads as one luxury house's anchor
   chain. Use your own device (here a crimped hose ferrule) and graduate the links so the chain itself swells.
+
+## Round 3 lessons: real chain, one machined part, forged finish
+Round 2 was still called ugly. The client pointed at a maker of plain men's chain bracelets: real cable, ball and
+square-wire chain, or a plain heavy band, broken by one small machined part (a bar, a plate), hand-forged and
+distressed with a grey patina. Round 3 followed that and dropped all liquid or sculpted form.
+- **One disruption per piece.** The chain stays plain; a single gearbox part (spool bar, riveted ID plate, ring
+  gear, detent ring) does all the talking. A second feature makes it a gadget again.
+- **Model chain as it is photographed** (`chains.py`): exact CSG links (two half tori plus straight bars), reused
+  by transform, laid in slots round a closed loop on the table. Neighbours lean +45 and -45 degrees about the
+  chain's line so they sit 90 degrees apart, all at one common axis height. Pitch = 0.88 x mean inner length; a
+  slot can set its own pitch.
+- **The slot count must be even** or two neighbours share a lean and clip. Flip the clasp's lean to suit.
+- **A straight bar or plate cannot sit on a curve:** flatten only the front half of the loop (superellipse `e`)
+  or insert a true straight run (`straight`), and loosen the slack to about 0.97 for the slots each side of it.
+- **A bar's lean must differ from its neighbour link**, and its eyes are links in the same alternation.
+- **Flush ruby:** one 1.5 to 2.0 mm ball in a spherical seat with a swaged lip at 0.86 of the ball radius, so a
+  little under half shows. A flat seat floor overlaps the ball.
+- **Forged material:** ambient occlusion times a noise rub (keep the rub minimum near 0.72 or it reads as marble),
+  dark base, hammer-dent and scratch bump. Machined parts stay brighter (`forged_hi`) so they read as the job.
+- **Plain bands need a crown.** A flat leaf or flat-sectioned cuff read as sheet metal; a crowned, tapering
+  section (D-section, rounded tip) lifted both by about two points.
+- **Swept bands:** hull three consecutive section rings per segment, or a long sweep falls apart into hundreds of
+  bodies.
+- **Close-up hero view:** for a long necklace, frame the pendant with a 7-element view (direction, centre, size).

@@ -196,7 +196,45 @@ def materials():
         rr = N.new("ShaderNodeMapRange"); rr.inputs[3].default_value = 0.3; rr.inputs[4].default_value = 0.04
         t.links.new(mr.outputs[0], rr.inputs[0]); t.links.new(rr.outputs[0], b.inputs["Roughness"])
         return m
+    def forged(name, bright=False):
+        """hand-forged, distressed sterling: an oxidised grey patina rubbed back on the high points, satin rather
+        than mirror, with hammer dents and fine scratches in the surface (bump only, the geometry stays exact)"""
+        m = bpy.data.materials.new(name); m.use_nodes = True; t = m.node_tree; N = t.nodes
+        b = N["Principled BSDF"]; b.inputs["Metallic"].default_value = 1.0
+        tc = N.new("ShaderNodeTexCoord")
+        ao = N.new("ShaderNodeAmbientOcclusion"); ao.inputs["Distance"].default_value = 1.2; ao.samples = 16
+        nz = N.new("ShaderNodeTexNoise"); nz.inputs["Scale"].default_value = 0.55; nz.inputs["Detail"].default_value = 3
+        t.links.new(tc.outputs["Object"], nz.inputs["Vector"])
+        # patina factor: recess (AO) plus a blotchy rub
+        mr = N.new("ShaderNodeMapRange"); mr.inputs[1].default_value = 0.45; mr.inputs[2].default_value = 0.95
+        t.links.new(ao.outputs["AO"], mr.inputs[0])
+        mn = N.new("ShaderNodeMapRange"); mn.inputs[1].default_value = 0.35; mn.inputs[2].default_value = 0.7
+        mn.inputs[3].default_value = 0.72 if not bright else 0.88; mn.inputs[4].default_value = 1.0
+        t.links.new(nz.outputs[0], mn.inputs[0])
+        mul = N.new("ShaderNodeMath"); mul.operation = 'MULTIPLY'
+        t.links.new(mr.outputs[0], mul.inputs[0]); t.links.new(mn.outputs[0], mul.inputs[1])
+        mix = N.new("ShaderNodeMix"); mix.data_type = 'RGBA'
+        mix.inputs[6].default_value = (0.07, 0.068, 0.066, 1); mix.inputs[7].default_value = (0.93, 0.925, 0.915, 1)
+        t.links.new(mul.outputs[0], mix.inputs[0]); t.links.new(mix.outputs[2], b.inputs["Base Color"])
+        rr = N.new("ShaderNodeMapRange"); rr.inputs[3].default_value = 0.42; rr.inputs[4].default_value = 0.16 if not bright else 0.1
+        t.links.new(mul.outputs[0], rr.inputs[0]); t.links.new(rr.outputs[0], b.inputs["Roughness"])
+        # hammer dents and scratches
+        hm = N.new("ShaderNodeTexNoise"); hm.inputs["Scale"].default_value = 1.6; hm.inputs["Detail"].default_value = 1.5
+        t.links.new(tc.outputs["Object"], hm.inputs["Vector"])
+        mp = N.new("ShaderNodeMapping"); mp.inputs["Scale"].default_value = (1.0, 30.0, 30.0)
+        mp.inputs["Rotation"].default_value = (0.3, 0.5, 0.7)
+        t.links.new(tc.outputs["Object"], mp.inputs["Vector"])
+        sc = N.new("ShaderNodeTexNoise"); sc.inputs["Scale"].default_value = 3.0; sc.inputs["Detail"].default_value = 4
+        t.links.new(mp.outputs["Vector"], sc.inputs["Vector"])
+        b1 = N.new("ShaderNodeBump"); b1.inputs["Strength"].default_value = 0.35; b1.inputs["Distance"].default_value = 0.08
+        t.links.new(hm.outputs[0], b1.inputs["Height"])
+        b2 = N.new("ShaderNodeBump"); b2.inputs["Strength"].default_value = 0.12; b2.inputs["Distance"].default_value = 0.01
+        t.links.new(sc.outputs[0], b2.inputs["Height"]); t.links.new(b1.outputs["Normal"], b2.inputs["Normal"])
+        t.links.new(b2.outputs["Normal"], b.inputs["Normal"])
+        return m
     return {
+        "forged": forged("g_forged"),
+        "forged_hi": forged("g_forged_hi", bright=True),
         "antique": antique("g_antique"),
         "bright": princ("g_bright", (0.97, 0.96, 0.945), 0, noise=(0.03, 0.065)),
         "satin": princ("g_satin", (0.95, 0.945, 0.935), 0, noise=(0.13, 0.19)),
@@ -279,10 +317,13 @@ def place_cams(objs, views, lens=100, margin=1.15):
     ctr = (lo + hi) / 2; size = (hi - lo).length
     fov = 2 * math.atan(36 / 2 / lens); dist = (size * margin / 2) / math.tan(fov / 2)
     for i, v in enumerate(views):
-        d = Vector(v).normalized()
+        d = Vector(v[:3]).normalized()
+        c_, dist_ = ctr, dist
+        if len(v) >= 7:                 # a framed close-up: (dir, centre, size) - for a pendant on a long chain
+            c_ = Vector(v[3:6]); dist_ = (v[6] * margin / 2) / math.tan(fov / 2)
         cd = bpy.data.cameras.new(f"cam{i}"); cd.lens = lens; cd.clip_start = 1; cd.clip_end = 1e5
         cam = bpy.data.objects.new(f"cam{i}", cd); bpy.context.collection.objects.link(cam)
-        cam.location = ctr + d * dist
+        cam.location = c_ + d * dist_
         cam.rotation_euler = (-d).to_track_quat('-Z', 'Y').to_euler()
         mk = s.timeline_markers.new(f"view{i}", frame=i + 1); mk.camera = cam
         if i == 0: s.camera = cam
@@ -331,7 +372,7 @@ def render(pc, mode):
     if os.environ.get("HEROVIEW"): views = [views[int(os.environ["HEROVIEW"])]] + views
     res, spp = int(os.environ.get("PRES", 720)), int(os.environ.get("PSPP", 32))
     keep = {o.name: o.data.materials[0] for o in objs if o.data.materials}
-    jlib.studio_white(objs, view=views[0], res=res, samples=spp, margin=1.15, lens=100)
+    jlib.studio_white(objs, view=tuple(views[0][:3]), res=res, samples=spp, margin=1.15, lens=100)
     for o in list(bpy.context.scene.objects):
         if o.name == "floor" or o.type == 'CAMERA':
             bpy.data.objects.remove(o, do_unlink=True)
