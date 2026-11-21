@@ -34,6 +34,21 @@ or place orders without the client's explicit OK (it spends money and shares the
 - **Automation.** Shapeways and Sculpteo have upload/order APIs; Craftcloud, Xometry and i.materialise have web upload
   only. In practice: prepare files, fill the forms, client approves the order.
 
+## The jeweler package (Bombyx, 21 Nov 2026: "reaching out to a jewler with CAD files and stones selected?")
+A collection isn't finished until each piece can go to a caster and setter as is. The package holds, per piece:
+- **Casting STL**: watertight, one body (an earring pair is two files' worth in one STL: two bodies, cast as two),
+  in mm, zipped. Decimate the voxel mesh with a quadric simplifier only while it stays watertight, one body and
+  within 0.3% of the original volume (`cast_export.py`); jewelers want tens of MB, not hundreds.
+- **Stone sheet**: species, cut, calibrated mm size, count and setting type (claws, bezel, bead) per piece, from the
+  piece's stone JSON. The client buys and ships the stones to the setter, who sets after polish.
+- **Findings**: earring drops get a cast loop (about 2 mm inside) for a bought French ear wire; studs get a flat pad
+  for a soldered post and butterfly; hair clips get two flat solder pads for a bought French barrette (pad spacing
+  matched to a stock length). Name the stock part and its metal.
+- **Metal and finish**: sterling 925 (or brass for a cheaper first run), lost-wax cast, high polish on raised
+  surfaces, light oxidise in engraved veins if wanted. Minimum section 0.4 to 0.5 mm at points, 0.8 mm on wires and
+  claws; flag anything thinner for the caster.
+- **README** saying what's in the folder and the order of work: cast, clean up, solder findings, polish, set, final polish.
+
 ## Rough timing (Nov 2026 estimates, not quotes)
 - Investment-cast 17-4PH frames: 5 to 8 weeks to the door. Sand cast (if alloy allows): 3 to 6 weeks.
 - Sterling jewelry: about 1 to 1.5 weeks via rush; 2.5 weeks via i.materialise.

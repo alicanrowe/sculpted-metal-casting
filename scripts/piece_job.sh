@@ -14,6 +14,7 @@ R=$B/reports/$P.txt
 case $P in *cuff*) TO=3000; VOXO=0.05;; *) TO=2400; VOXO=0.045;; esac
 {
 echo "== $P  $(date -u +%FT%TZ)  $(hostname)"
+[ -f check_members.py ] && { python3 check_members.py $P 2>&1 | tail -n 20; echo "members exit ${PIPESTATUS[0]}"; }     # ends and junctions: NUB, CROSS, BOLT, HOLE
 for V in $VOXO $(python3 -c "print($VOXO*0.95, $VOXO*1.06, $VOXO*0.89, $VOXO*1.11)"); do      # re-mesh at a shifted voxel until watertight (once round)
   rm -f /tmp/piece_out/*.stl
   OUTDIR=/tmp/piece_out VOX=$V timeout $TO python3 make.py $P stl 2>&1 | grep -E "bodies|debris|error|Error"
