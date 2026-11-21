@@ -14,7 +14,7 @@ R=$B/reports/$P.txt
 case $P in *cuff*) TO=3000; VOXO=0.05;; *) TO=2400; VOXO=0.045;; esac
 {
 echo "== $P  $(date -u +%FT%TZ)  $(hostname)"
-for V in $VOXO $(python3 -c "print($VOXO*0.95, $VOXO*1.06)"); do      # re-mesh at a shifted voxel until watertight (once round)
+for V in $VOXO $(python3 -c "print($VOXO*0.95, $VOXO*1.06, $VOXO*0.89, $VOXO*1.11)"); do      # re-mesh at a shifted voxel until watertight (once round)
   rm -f /tmp/piece_out/*.stl
   OUTDIR=/tmp/piece_out VOX=$V timeout $TO python3 make.py $P stl 2>&1 | grep -E "bodies|debris|error|Error"
   python3 check.py /tmp/piece_out 2>&1 | grep "^$P" | sed 's/np.float64(\([0-9.]*\))/\1/g'
@@ -22,8 +22,9 @@ for V in $VOXO $(python3 -c "print($VOXO*0.95, $VOXO*1.06)"); do      # re-mesh 
   echo "VOX $V not watertight, retrying"
 done
 python3 check_stones.py --jewelry /tmp/piece_out/$P.json 2>&1 | tail -n +1
-python3 check_settings.py /tmp/piece_out/$P.stl /tmp/piece_out/$P.json 2>&1 | tail -n 40; echo "settings exit $?"
+python3 check_settings.py /tmp/piece_out/$P.stl /tmp/piece_out/$P.json > /tmp/piece_out/settings.txt 2>&1; SE=$?; tail -n 40 /tmp/piece_out/settings.txt; echo "settings exit $SE"
 } > "$R" 2>&1
+mv -f $B/squares/$P.jpg $B/squares/$P.prev.jpg 2>/dev/null   # render_square.sh skips a piece whose square exists: a re-run must not keep the old one
 OUTSQ=$B/squares KIT_DIR="$K" TO=$TO VOXO=$VOXO PY=python3 WORK=/tmp/piece_rw bash "$K/render_square.sh" $P >> "$R" 2>&1
 OUTDIR=/tmp/piece_out VOX=$VOXO GLBFACES=120000 timeout 1200 python3 make.py $P glb 2>&1 | grep -E "^glb|rror" >> "$R"
 cd /tmp/piece_out && timeout 600 npx -y @gltf-transform/cli@4.1.1 optimize $P.glb $B/glb/$P-v${GLBV:-1}-lite.glb --compress meshopt >> "$R" 2>&1

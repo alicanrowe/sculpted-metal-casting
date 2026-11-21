@@ -84,8 +84,18 @@ Four passes against the shop photos on the Moth saw and fork grips:
 - **Thickness floor for small pieces.** Ribbon strokes thin to `min(W, 0.36)` at their ends, which put earrings and
   small rings at p5 0.53 to 0.55 mm, under the 0.8 mm casting floor. `TFLOOR=0.45` (env, read by sculpt.py) brings
   rings and pendants to p5 0.8 to 0.9 mm with no visible change. Very small studs may still need wider strokes.
-- **Watertight retry.** One voxel size in sixty can leave a non-manifold seam where two strokes graze. Re-mesh at the
-  voxel x 0.95, then x 1.06, until check.py reports watertight (piece_job.sh does this).
+- **Watertight retry, then repair.** About one piece in eight left a few open loops where two strokes graze. piece_job.sh
+  re-meshes at the voxel x 0.95, 1.06, 0.89 and 1.11. Some pieces stay open at every voxel (the same two 26 to 32 edge
+  slits each time); `scripts/repair_stl.py in.stl out.stl` caps each open loop with a fan wound to match its
+  neighbours (volume change about 0.01 %) and writes the file only if the result is watertight. The square and GLB
+  from the open mesh are the same form; only the casting STL needs the repair.
+- **Re-runs must clear the old square.** render_square.sh skips a piece whose square already exists, so a fix round
+  silently kept every round-one square. piece_job.sh now moves the old square aside first.
+- **Read the checker's own exit code.** `check_settings.py ... | tail; echo $?` reports tail's exit, which is always 0.
+- **Hanging fancy stones need four claws.** Pears hung point-up from a loop (moira.pear) used three claws and failed
+  HOLD on every piece; four (five where a strand runs under one claw) pass.
+- **Bezel glazes scale badly.** A glazed crescent at radius 7 seats every bezel; at radius 17 to 19 the stock-size
+  stones float in cells sized for bigger ones (SEAT fails). Keep glazed motifs small or cap the cell sizes at stock.
 - **check_settings needs `rtree`** (trimesh proximity). Install it with the rest, or the settings/clipping check
   silently gets no answer.
 - **Web GLB from the kit:** `make.py <piece> glb` decimates the metal in Blender (a DECIMATE modifier to `GLBFACES`;
