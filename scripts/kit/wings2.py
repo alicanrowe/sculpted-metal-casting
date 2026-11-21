@@ -180,6 +180,9 @@ for _k, _v in dict(bfly_f=BFLY_F, bfly_h=BFLY_H, moth_f=MOTH_F, moth_h=MOTH_H).i
 
 
 def _shape(shape):
+    """A named outline, or your own: pass a list of (x, y) points (wing root at the origin) for a custom panel."""
+    if not isinstance(shape, str):
+        return shape
     return {"fore": FORE, "dragon": DRAGON, "hind": HINDW, "bfly_f": BFLY_F, "bfly_h": BFLY_H, "moth_f": MOTH_F, "moth_h": MOTH_H}[shape]
 
 

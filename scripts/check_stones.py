@@ -14,6 +14,7 @@ import sys, json, math
 # species: (specific gravity, largest common calibrated faceted size mm, largest realistic one-off mm, rough $/ct band, note)
 SPECIES = {
     "amethyst":   (2.65, 20, 40, "1-10", "quartz: large clean faceted stones are common and cheap"),
+    "spinel":     (3.60, 10, 16, "2-20", "pale pink lab-grown spinel (the balas colour): cheap, clean stock to ~10 mm"),
     "citrine":    (2.65, 20, 40, "1-10", "quartz (mostly heated amethyst): large sizes common"),
     "topaz":      (3.53, 18, 35, "1-8", "sky/swiss blue topaz (treated): large sizes common and cheap"),
     "londonblue": (3.53, 16, 30, "2-15", "london blue topaz (treated): fine up to ~16 mm stock, bigger as one-offs"),

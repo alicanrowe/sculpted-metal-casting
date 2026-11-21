@@ -5,6 +5,7 @@ no floor, no shadows, transparent film.
     python make.py <piece> farm      -> farm3/<piece>.blend (GarageFarm job, frames 1-4)
     python make.py <piece> local4    -> $OUTDIR/<piece>_v0001-4.png (all four views on this machine)
     python make.py <piece> stl       -> $OUTDIR/<piece>.stl + .json (the casting file, no render)
+    python make.py <piece> glb       -> $OUTDIR/<piece>.glb (web preview: decimated to $GLBFACES, metres, Y up, glass stones)
     python make.py list              -> every piece name the kit knows
 """
 import sys, os, json, math
@@ -112,6 +113,31 @@ def build(name, mode="preview"):
         return
     import bpy, jlib
     jlib.reset()
+    if mode == "glb":          # web 3D preview: decimated metal + simple glass stones, mm -> m, Y up via the exporter
+        import trimesh as _tm
+        cap = int(os.environ.get("GLBFACES", 150000))
+        ob = v2.to_blender(np.asarray(m.vertices, np.float32) / 1000.0, np.asarray(m.faces, np.int32), name)
+        if len(m.faces) > cap:
+            dm = ob.modifiers.new("d", 'DECIMATE'); dm.ratio = cap / len(m.faces)
+        met = bpy.data.materials.new("silver"); met.use_nodes = True
+        b = met.node_tree.nodes["Principled BSDF"]
+        b.inputs["Base Color"].default_value = (0.92, 0.92, 0.93, 1); b.inputs["Metallic"].default_value = 1.0
+        b.inputs["Roughness"].default_value = 0.16
+        ob.data.materials.append(met)
+        for r in stones:
+            r2 = dict(r); r2["c"] = (np.asarray(r["c"]) / 1000.0).tolist(); r2["D"] = r["D"] / 1000.0; r2["L"] = r["L"] / 1000.0
+            if r2.get("outline"): r2["outline"] = (np.asarray(r["outline"]) / 1000.0).tolist()
+            stn = v2.stone_mesh(r2, r["kind"])
+            gm = bpy.data.materials.new("stone_" + r["kind"]); gm.use_nodes = True
+            gb = gm.node_tree.nodes["Principled BSDF"]; col = jlib.STONES[r["kind"]]["color"]
+            gb.inputs["Base Color"].default_value = (col[0], col[1], col[2], 1)
+            gb.inputs["Transmission Weight"].default_value = 0.85; gb.inputs["Roughness"].default_value = 0.02
+            gb.inputs["IOR"].default_value = jlib.STONES[r["kind"]].get("ior", 1.6)
+            stn.data.materials.append(gm)
+        out = os.path.join(OUT, name + ".glb")
+        bpy.ops.export_scene.gltf(filepath=out, export_format='GLB', export_apply=True, export_yup=True)
+        print("glb", out, os.path.getsize(out), flush=True)
+        return
     ob = v2.to_blender(np.asarray(m.vertices, np.float32), np.asarray(m.faces, np.int32), name)
     cap = int(os.environ.get("FACECAP", 8000000))
     if len(m.faces) > cap:

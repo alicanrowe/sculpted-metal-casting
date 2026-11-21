@@ -15,7 +15,9 @@ Per strap body it reports:
   RING       a closed loop (a torus-like body) touching the frame can't be put on or taken off: it needs a
              closure, unless it is sewn on round the frame for good (--allow-ring).
   INSIDE     strap surface inside the frame: leather can't pass through metal (more than 2% of vertices fails).
-  TOUCH      the strap rests on or wraps the frame (it is within one thickness of it somewhere).
+  TOUCH      the strap rests on or wraps the frame (it is within one thickness of it somewhere). With --spec, the
+             spec's load paths (checked by check_soft_build.py) say what holds the seat instead: a lace may stand
+             clear of the frame by its uplift travel.
 Per closure body:
   FASTENS    it touches a strap; a toggle floating clear of the strap fastens nothing.
 Exit code 1 on any FAIL.
@@ -73,6 +75,7 @@ def main():
     ap.add_argument("--pad-min", type=float, default=None, help="bodies thicker than this are pads (default 5t)")
     ap.add_argument("--min-body", type=float, default=None, help="ignore specks under this volume (default t^3)")
     ap.add_argument("--allow-ring", action="store_true"); ap.add_argument("--json")
+    ap.add_argument("--spec", help="the piece's check_soft_build spec: its load paths to the frame stand in for TOUCH")
     a = ap.parse_args()
     import trimesh
     rigid = trimesh.load(a.rigid, force="mesh")
@@ -104,7 +107,10 @@ def main():
                 bad.append("RING (a closed loop on the frame: it can't come off without a closure)")
             r["touches_frame"] = d <= t
         r["verdict"] = "; ".join(bad) or "OK"; fails += bool(bad); res.append(r)
-    if not any(r.get("touches_frame") for r in res if r["role"] == "strap"):
+    held = False
+    if a.spec:
+        held = any((lp.get("chain") or [None])[-1] == "frame" for lp in json.load(open(a.spec)).get("load_paths", []))
+    if not held and not any(r.get("touches_frame") for r in res if r["role"] == "strap"):
         res.append(dict(verdict="TOUCH (no strap rests on or wraps the frame: what holds the seat?)")); fails += 1
     if a.closure:
         cl = trimesh.load(a.closure, force="mesh")

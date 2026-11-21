@@ -5,6 +5,7 @@ scroll  - a Baroque C/S scroll: ribbon tightening into a volute, bead held in th
 arch    - a Gothic lancet: pointed arch ribbon with cusps on the inner edge and a finial
 All coordinates are in the buckle plane (x, y) with z up out of the face."""
 import math
+import os
 import numpy as np
 from sdf import resample, arclen, tangents, catmull, profile
 
@@ -33,7 +34,7 @@ def ribbon(s, pts, w=2.0, wkeys=None, thin=0.32, twist=None, z=None, ends=(0.12,
         f = np.clip(u / t0, 0, 1); W = tip + (W - tip) * (1 - (1 - f) ** 2.2)
     if t1 > 0 and not round_ends[1]:
         f = np.clip((1 - u) / t1, 0, 1); W = tip + (W - tip) * (1 - (1 - f) ** 2.2)
-    T = np.maximum(W * thin, np.minimum(W, 0.36))
+    T = np.maximum(W * thin, np.minimum(W, float(os.environ.get("TFLOOR", 0.36))))   # TFLOOR: raise to 0.45 for small or many-piece runs (casting p5 >= 0.8 mm)
     ups = None
     if m is not None:
         ups = np.array([m.N(x, y) for x, y, _ in c])

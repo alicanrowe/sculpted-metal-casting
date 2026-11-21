@@ -194,6 +194,7 @@ def bezel(c, w, l=None, depth=None, normal=(0, 0, 1), spin=0.0, wall=0.7, name="
 
 
 STONES = {
+    "spinel": dict(color=(0.99, 0.6, 0.72), transmission=0.9, ior=1.72, rough=0.02),
     "citrine": dict(color=(1.0, 0.62, 0.12), transmission=0.85, ior=1.55, rough=0.02),
     "aquamarine": dict(color=(0.5, 0.82, 0.95), transmission=0.6, ior=1.58, rough=0.02),
     "labradorite": dict(color=(0.035, 0.045, 0.06), transmission=0.0, ior=1.56, rough=0.05, film=330),

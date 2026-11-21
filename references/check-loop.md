@@ -75,3 +75,28 @@ Four passes against the shop photos on the Moth saw and fork grips:
   darker. Too light reads as peach plastic.
 - Ends: tuck the cords 0.075 in under tapered blackened ferrules (core radius flaring to the bundle) with a rope band;
   flat disc collars looked like washers, and tilted tube ends poke out of short collars.
+
+## Collection-scale runs (dozens of pieces at once), lessons from a 64-piece collection
+- **Freeze, then fan out one piece per cloud machine.** `codeversion.py freeze` the kit, then run
+  `KIT=<frozen kit> OUT=<shared folder> bash scripts/piece_job.sh <piece>` on each machine. The job refuses a Mac and a
+  changed kit, meshes, runs check.py, check_stones.py and check_settings.py, renders the square and exports the web GLB,
+  and writes one report per piece. Review the reports and squares together before anything is published.
+- **Thickness floor for small pieces.** Ribbon strokes thin to `min(W, 0.36)` at their ends, which put earrings and
+  small rings at p5 0.53 to 0.55 mm, under the 0.8 mm casting floor. `TFLOOR=0.45` (env, read by sculpt.py) brings
+  rings and pendants to p5 0.8 to 0.9 mm with no visible change. Very small studs may still need wider strokes.
+- **Watertight retry.** One voxel size in sixty can leave a non-manifold seam where two strokes graze. Re-mesh at the
+  voxel x 0.95, then x 1.06, until check.py reports watertight (piece_job.sh does this).
+- **check_settings needs `rtree`** (trimesh proximity). Install it with the rest, or the settings/clipping check
+  silently gets no answer.
+- **Web GLB from the kit:** `make.py <piece> glb` decimates the metal in Blender (a DECIMATE modifier to `GLBFACES`;
+  trimesh's simplify left a 26 MB file), adds glass stones with the render's colours and IOR, exports metres and Y up;
+  then `gltf-transform optimize --compress meshopt` gives about 0.4 to 0.5 MB per piece.
+- **Custom vein-panel outlines.** `wings2._shape` takes a list of (x, y) points as well as a named wing, so leaves,
+  petals, plumes and shells can use the calm vein panel the owner already approved, instead of new stroke-built shapes
+  (the first round, built from bare strokes, read as crude noodles).
+- **Mirroring a panel:** pass the unmirrored angle with `sx=-1`. Passing an already-mirrored angle as well flips it back.
+  For a shape that must mirror across its own axis (two shell halves), mirror the outline (negate y), not `sx`.
+- **Earring pairs:** leave at least 30 mm between the two centres for wide drops, or the pair fuses into one body.
+- **Taste loop at collection scale:** render cheap hero previews of every piece (VOX 0.07, 320 px), lay them out as
+  contact sheets, and judge each against the owner's past picks (client-picks.md). Rebuild whole motifs in the approved
+  language rather than patching single pieces.
