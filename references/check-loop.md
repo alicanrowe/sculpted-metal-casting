@@ -110,3 +110,19 @@ Four passes against the shop photos on the Moth saw and fork grips:
 - **Taste loop at collection scale:** render cheap hero previews of every piece (VOX 0.07, 320 px), lay them out as
   contact sheets, and judge each against the owner's past picks (client-picks.md). Rebuild whole motifs in the approved
   language rather than patching single pieces.
+
+## Sameness check (every collection, before anyone sees it)
+The client's rule: every piece needs its own silhouette idea, and a new collection must not read as an earlier one
+in a new colour. Run it on the finished squares, against every earlier collection and any sibling collection
+being built at the same time:
+
+    python3 -I scripts/check_sameness.py --new NEW=squares/ [--new-stl stl/] \
+        --ref OLD1=old1/squares --ref OLD2=old2/squares [--ref-stl OLD1=old1/stl] --out reports/sameness
+
+It scores the hero view of each square (shape, outline straightness, tone, colour, edge direction, fine grain,
+plus mesh crispness when STLs are given), normalised so 1.0 is a typical difference between two reference pieces.
+Flags: SAME (two new pieces under 0.35), NEAR (under 0.55: look), ECHO (a new piece within 0.50 of an old one),
+RESKIN (the whole set sits among an old collection: set ratio under 1.10), TYPES (over half the pieces are
+ring / earrings / cuff / pendant, or the type mix is an old collection's). Exit 1 on any flag except NEAR. Fix
+flagged pieces in the design (a new silhouette idea, not a new seed or stone), re-render, re-run. Put the report
+in the collection's reports folder and tell any sibling thread the result.

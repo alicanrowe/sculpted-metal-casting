@@ -1,6 +1,6 @@
 ---
 name: sculpted-metal-casting
-description: Design sculptural cast-metal pieces (sterling jewelry from castable wax, and furniture-scale castings like a metal sawhorse) with an SDF sculpting kit, check them for casting, render photoreal squares, and run the make-and-check loop against named reference artists.
+description: Design sculptural cast-metal pieces (sterling jewelry from castable wax, and furniture-scale castings like a metal sawhorse) with an SDF sculpting kit, or precision-machined jewelry (turned, knurled, geared assemblies) with an exact CSG kit; check them for casting or machining, render photoreal squares, check a collection for sameness against earlier ones, and run the make-and-check loop against named reference artists.
 ---
 
 # Sculpted metal casting
@@ -29,8 +29,12 @@ The code is in `scripts/`. The rules that came out of real review rounds are in 
 6. **Render, on a cloud machine.** Never on the client's own computer: `render_square.sh` refuses to run on a Mac. Big jobs (animations) go to a render farm. `bash scripts/render_square.sh <piece>` renders four views (hero plus three angles) in a white light tent with real silver and faceted stones, and composes an Instagram square. It keeps the full build log in `<OUTSQ>/_logs/<piece>.txt`.
 7. **Check against the references (the loop).** Put the square next to the named references and list what reads robotic. `references/check-loop.md` has the checklist and the flags that keep coming back. Fix, re-render, repeat. Show the client only squares that passed.
 8. **Fan out, frozen.** For more than a few pieces, freeze the shared code (`python scripts/codeversion.py freeze r4 <files> > CODE_VERSION.txt`), give each piece its own machine, and follow `references/render-farm.md`. Render jobs never edit shared files. They report flags, and one owner fixes the kit centrally, bumps the version (fix1, fix2, fix3) and names the pieces to re-render. `scripts/piece_job.sh` runs one piece end to end (mesh, casting, stone and setting checks, square, web GLB) with a report per piece; collection-scale lessons are at the end of `references/check-loop.md`.
+8b. **Sameness check.** Before any sheet or page, run `scripts/check_sameness.py` on the new squares against every earlier collection and any sibling collection (`references/check-loop.md`, end). Fix every SAME, ECHO, RESKIN or TYPES flag in the design, not with a new seed or stone.
 9. **Sheet.** Assemble the passed squares into one comparison sheet, the client's picks first. Copy every square the client picks into a `picks/` folder that no re-render writes to, so a later round can't lose it (nine picks lost their images on 18 Nov).
 10. **Public text.** Notes, sheets and site copy describe each piece on its own terms: no reference artists' names, file names or "inspired by" lines. The brief keeps the influences; the public never sees them.
+
+## Machined jewelry
+When the brief asks for machining (turned, milled, knurled, geared, screwed together) use `scripts/machined/` and read `references/machined-jewelry.md` first: exact CSG instead of SDF, assemblies of separately made parts with a per-part and clipping check, two-tone by finish, balls instead of cut stones. Several carving rules below flip for it.
 
 ## Furniture-scale castings
 Read `references/furniture-scale.md`. The worked example (`scripts/sawhorse/`) keeps the proportions of a classic wooden sawhorse, recasts the frame in metal with the same kit, and adds a removable leather seat that drops over the rail on a slot. The rules: the bare frame must still work (flat rail top at the original height, nothing above that line), the metal is one watertight casting, and every sheet shows the seat on and off. For anything people sit or stand on, also run a load and tipping check. Before showing any pass, run the design-coherence check (`references/design-coherence.md`): every part listed with its language, one close-up per part, no plain or bead-tipped part on a carved piece.
@@ -39,7 +43,7 @@ Read `references/furniture-scale.md`. The worked example (`scripts/sawhorse/`) k
 When designs are final, read `references/production-and-delivery.md`: who casts, prints, sets stones and finishes each part, what the client does by hand (leather), bought hardware, and the stone-cup rule for steel furniture.
 
 ## Rules that are easy to break
-- No bead rows anywhere: no strung beads, ladder ticks, dot rows, milgrain, rope or knurled rims. They read machined.
+- No bead rows anywhere in a carved piece: no strung beads, ladder ticks, dot rows, milgrain, rope or knurled rims. They read machined. (A machined collection is the exception: there knurling, even rows and straight rods are the point, but each must be a real cut detail of the real part. See `references/machined-jewelry.md`.)
 - Every stroke swells and ends in a needle. No even-gauge tubes, no ball ends, no straight rods.
 - Stones are stock calibrated sizes you can actually buy (run check_stones.py). Furniture kits are in cm, so cap their stones. Rounds of 2 mm and under are bead-set, centre ovals and drops get claws, wing panes sit in 0.7 mm open-backed bezels.
 - Join members in the geometry so they fuse; `make.bridge` struts are a safety net, not a design tool.
