@@ -63,5 +63,15 @@ When designs are final, read `references/production-and-delivery.md`: who casts,
 - A contour the eye reads as one curve (a crescent's inner edge) is built as one curve, with no knuckle where members meet it.
 - Bundles of ribbons, vines or strands follow one rule (an even fan, a shared wave, graded lengths, stacked in depth), never random phases that cross and merge.
 
+## Excuses that don't count
+Each of these is a shortcut that ends in a broken result. If you catch yourself thinking the left column, do the right column.
+
+| The excuse | What to do instead |
+|---|---|
+| "Wall thickness looks OK" | Run the casting check; thin walls and trapped volumes fail. |
+| "The stone/chain only touches a little" | Run the clipping check; metal through stone, glass or cord is a fail. |
+| "This set looks varied enough" | Run the sameness check against earlier collections and siblings. |
+| "While I'm in here I'll also tidy/refactor this other bit" | Change only what the task needs. Smallest diff that works; no new options, helpers or files nobody asked for. Note other ideas for later instead. |
+
 ## Keep this skill improving
 When a client flags something, or a check misses a problem, write the rule into the matching reference file in the same session (taste remarks go, with the client's words, in the `design-taste` skill's `critique-log.md` and then its principles or rubric, published with `_publish/sync.sh design-taste`, and sheet pins also in `client-picks.md`; style, casting, buildable, stone settings, render farm, client picks), add a planted case to `scripts/tests/` if a check should have caught it, and run `python3 scripts/tests/test_check_settings.py && python3 scripts/tests/test_check_soft_parts.py && python3 scripts/tests/test_check_soft_build.py && python3 scripts/tests/test_check_joints.py && python3 scripts/tests/test_check_members.py`. Then publish the skill.
