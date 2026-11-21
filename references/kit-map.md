@@ -15,6 +15,7 @@ Units are millimetres for jewelry (centimetres in the sawhorse). Z is up. Every 
 | `abdomen.py` | The carved insect abdomen (one tapering stroke with plate lines). |
 | `detail.py` | Hand-finish details: engraved barbs, acanthus chasing, splitting hooks. Milgrain is in here too; leave it off. |
 | `glass64.py`, `glassB.py` to `glassF.py`, `devel.py` | The worked collection: about a thousand registered pieces across rounds (stained-glass, motif-generated, influence studies, round 3 and 4 breeds, development passes). Read a few builders before writing your own. |
+| `fidelity.py` | The photographic look (`LOOK=fidelity`): oxidised sterling, low sun with sky fill, white sweep that keeps the cast shadow, macro depth of field. See `render-fidelity.md`. |
 | `make.py` | Build one piece: mesh, bridge floating metal, drop debris, print bodies and grams, then render (`preview`, `local4`), export (`stl`) or save a render-farm `.blend` (`farm`). `python make.py list` prints every piece. |
 | `check.py` | Castability report over a folder of STLs. |
 | `square.py` | Compose four views into the Instagram square. |

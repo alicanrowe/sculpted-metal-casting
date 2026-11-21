@@ -8,7 +8,18 @@ from PIL import Image
 S = 1080
 
 
+def paper_alpha(im, white=246, soft=40):
+    """Opaque renders on a white sweep (LOOK=fidelity): turn the paper into alpha so the piece and its
+    cast shadow blend onto the page white, with no grey tile edge."""
+    lum = im.convert("L")
+    a = lum.point(lambda v: 255 if v < white - soft else max(0, int((white - v) * 255 / soft)))
+    out = im.copy(); out.putalpha(a)
+    return out
+
+
 def fit(im, w, h, pad=0.06):
+    if im.getchannel("A").getextrema() == (255, 255):
+        im = paper_alpha(im)
     a = im.getchannel("A")
     bb = a.point(lambda v: 255 if v > 6 else 0).getbbox() or (0, 0, im.width, im.height)
     im = im.crop(bb)

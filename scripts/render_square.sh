@@ -5,6 +5,8 @@
 #      TO     timeout in seconds (default 2400; cuffs 3000)
 #      VOXO   voxel size in mm (default 0.045; cuffs 0.05)
 #      PRESO  render resolution per view (default 720)   PSPPO  samples (default 24)
+#      LOOK   fidelity = photographic look (oxidised sterling, low sun, white sweep with shadow, DOF);
+#             use PRESO 1400+ and PSPPO 96+ with it (references/render-fidelity.md)
 #      PY     python with bpy 5.3 + numba (default python3)   WORK  scratch dir (default /tmp/mb_rw)
 #      KIT_DIR  folder holding make.py and the kit (default: scripts/kit next to this file)
 set -u

@@ -33,6 +33,8 @@ Shared-code cause (if known): ...
 | Same silhouette across a family | seed only drives stones | let the seed drive the layout |
 | Stone invisible in renders | clear glass on white, or hidden by metal | darker bezel edge, more absorption, or move the stone |
 | Cropped thumbnail | compose margin | re-frame that view |
+| Reads as grey CG chrome, engraving invisible | uniform mirror silver in a soft tent, shallow cuts, low samples | `LOOK=fidelity`, cuts 0.15 to 0.3 mm deep, PRESO 1400+ (`render-fidelity.md`) |
+| Piece floats on white | transparent render flattened, no ground | white sweep with the cast shadow (`LOOK=fidelity`) |
 
 ## Dark-studio renders: flat steel goes black
 On a pure black studio (world strength 0), flat polished plates such as saw blades, chisel faces and fleam blades

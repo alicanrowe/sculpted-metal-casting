@@ -154,8 +154,11 @@ def build(name, mode="preview"):
         if o.name == "floor" or (o.type == 'CAMERA'):
             bpy.data.objects.remove(o, do_unlink=True)
     v2.realism(objs)
-    place_cams(objs, views)
+    cams = place_cams(objs, views)
     sc = bpy.context.scene
+    fid = os.environ.get("LOOK") == "fidelity"     # photographic look: oxidised sterling, sun, sweep, DOF
+    if fid:
+        import fidelity; fidelity.apply(objs, cams)
     if mode == "preview":
         sc.render.filepath = os.path.join(OUT, name + os.environ.get("TAG", "") + "_hero.png")
         bpy.ops.render.render(write_still=True)
@@ -163,7 +166,7 @@ def build(name, mode="preview"):
     if mode == "local4":       # all four views rendered here (CPU), for a finished square without the farm
         sc.render.resolution_x = sc.render.resolution_y = res; sc.render.resolution_percentage = 100
         sc.cycles.samples = spp; sc.cycles.use_denoising = True
-        sc.render.film_transparent = True
+        sc.render.film_transparent = not fid
         sc.render.image_settings.file_format = 'PNG'; sc.render.image_settings.color_mode = 'RGBA'
         sc.render.filepath = os.path.join(OUT, name + "_v")
         bpy.ops.render.render(animation=True)
@@ -173,7 +176,7 @@ def build(name, mode="preview"):
     sc.cycles.use_adaptive_sampling = True; sc.cycles.adaptive_threshold = 0.01
     sc.cycles.use_denoising = True; sc.cycles.denoiser = 'OPENIMAGEDENOISE'
     sc.render.resolution_x = sc.render.resolution_y = res; sc.render.resolution_percentage = 100
-    sc.render.film_transparent = True
+    sc.render.film_transparent = not fid
     sc.render.image_settings.file_format = 'PNG'; sc.render.image_settings.color_mode = 'RGBA'
     sc.render.filepath = "//" + name + "_v"
     if ob.modifiers:
