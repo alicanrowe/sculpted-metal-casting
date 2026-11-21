@@ -2,7 +2,7 @@
 Each boundary loop is capped with a fan to its centroid, wound to match the faces around it.
 usage: python repair_stl.py in.stl out.stl  -> prints loops, watertight, volume change"""
 import sys, numpy as np, trimesh, networkx as nx
-m = trimesh.load(sys.argv[1]); m.merge_vertices(); v0 = abs(m.volume)
+m = trimesh.load(sys.argv[1]); m.merge_vertices(); v0 = abs(m.volume); nb0 = m.body_count
 F = m.faces.copy(); V = m.vertices.copy()
 # directed boundary edges: an edge (a,b) used once; the cap must use (b,a)
 e = np.vstack([F[:, [0, 1]], F[:, [1, 2]], F[:, [2, 0]]])
@@ -26,6 +26,13 @@ for comp in nx.weakly_connected_components(G):
     loops += 1
 if newV:
     m = trimesh.Trimesh(np.vstack([V, newV]), np.vstack([F, newF]), process=True)
-print(f"capped {loops} loops, watertight {m.is_watertight}, winding {m.is_winding_consistent}, "
+how = "fan caps"
+if not m.is_watertight:          # non-manifold edges (three or four faces on one edge): MeshFix, accepted only if the volume holds
+    import pymeshfix
+    mf = pymeshfix.MeshFix(np.asarray(m.vertices), np.asarray(m.faces)); mf.repair(joincomp=False, remove_smallest_components=False)
+    m2 = trimesh.Trimesh(mf.points, mf.faces, process=True)
+    if m2.is_watertight and abs(abs(m2.volume) - v0) / v0 < 0.005 and m2.body_count == nb0:
+        m = m2; how = "fan caps + MeshFix"
+print(f"{how}: capped {loops} loops, watertight {m.is_watertight}, winding {m.is_winding_consistent}, "
       f"volume change {100*(abs(m.volume)-v0)/v0:+.4f}%, bodies {m.body_count}")
 if m.is_watertight: m.export(sys.argv[2])

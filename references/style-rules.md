@@ -33,38 +33,16 @@ These came out of real review rounds. Each one is a correction a client already 
   abstracted or partial. Tiny repeated motifs that can't carry their detail at viewing distance get scaled up
   into real members or dropped. See `client-picks.md` for what the client loves and flagged.
 
-## Design taste (the client's stated preferences, kept up to date)
-Every correction the client makes about how something looks goes here as a rule the same day, with the words they
-used in `client-picks.md`. Read this before any design or redesign, and check new work against every line.
+## Design taste (moved to the shared design-taste skill, 21 Nov 2026)
+The client's cross-project taste (dark and gothic over pretty, never literal, one language head to toe, the motif
+is the structure, solid not flimsy, no nubs, light stones, liked changes go everywhere, and the rest) now lives in
+one place: the `design-taste` skill (`../design-taste/` next to this skill, github.com/alicanrowe/design-taste).
+Read its `principles.md` and `banned-moves.md` before any design, and score every render with its `rubric.md`
+before showing it. The metal-specific picks (stitched-cord grips, the liked feet) stay in `client-picks.md`.
 
-- **Dark, scary and gothic beats pretty.** When asked for "the theme", push toward menace: bone, claw, thorn,
-  carapace, needle points, black and darkened metal. Tidy, cute or generic ornament is a fail even if it is clean.
-- **Never literal.** No clip-art insects, butterfly or moth silhouettes, pictogram bugs at a crossing, or cut-out
-  stencils. The creature is suggested by structure (veins, bones, joints, wing membranes that brace) and may be
-  partial or abstract. Two strikes on this already (Edge stretcher, Edge X hub).
-- **Fit the piece's own world.** New parts (feet, handles, hubs, pulls, hinges) are built from motifs already on
-  that piece. Read the piece's model and renders first and name the motifs you are reusing in the brief.
-- **One creature, head to foot.** A foot is the leg continuing in the same members (Durumi's crane foot is the
-  reference). No stock foot shared across variants, no curled-up "elf shoe" toes.
-- **Spikes wind, they don't line up.** Thorns run along vines and long members; never a comb of barbs or spikes on
-  the focal point.
-- **One focal point and quiet space.** Busy centres get flagged; let crossing members pass clean.
-- **Motifs must read at viewing distance**, or get scaled up into real members, or dropped.
-- **Variants change the silhouette**, not just the colour or stones.
-- **Leather grips are twisted, cross-stitched leather cords** (client pick 9, the client's shop photos): round tan cords, one pale
-  X-stitched seam each, several twisted into a rope. Applies to every leather section on any handle or wrap.
-- **A liked change goes everywhere.** When the client likes an improvement on one piece of a set, roll it out to every
-  related piece in that piece's own language, and push it live ("keep the updates eveyrwhere its a rule").
-- **No hexagon cages.** A hexagon frame with a block hub on tension rods reads as hardware, not sculpture (Edge r9
-  hub: "i hate the hexagon rework").
-- **Long spikes and horns taper smoothly.** No lumps, ripples or knuckled bulges along a hanging spike or horn
-  ("fix this being lumpy").
-- **Liked feet and profiles to reuse:** Thread r9's twisted-strand foot (two strands twisting low to a whipped
-  scroll-ball toe on the floor); Edge r9's planted beak T-foot on glides; Edge's side profile, tapered legs flaring
-  into a T-foot ("this is a really nice side profile").
-
-Check before showing any design: hold the render next to this list and the pinned picks. If a line fails, fix it
-first. If the client says something about taste that isn't here, add it in the same session.
+**Self-improving rule.** Any critique of how something looks goes into design-taste's `critique-log.md` with the
+client's words in the same session, then into its principles or rubric, then publish it with
+`_publish/sync.sh design-taste`. Pins on jewelry sheets also go in `client-picks.md` here as before.
 
 ## Asymmetry (client, r4 review)
 Small random wing/outline differences read as mistakes. Either mirror the pair, or make the asymmetry big and obvious (one wing clearly reshaped, one dominant element) so it reads as intent. Keep stone colours to one species per piece unless asked.
