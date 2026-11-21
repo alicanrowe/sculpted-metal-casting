@@ -31,3 +31,8 @@ A 3.4 mm bead-set stone is wrong twice: it is over the 2 mm bead limit and not a
   seat (`gem()` in `moth-build/gems/moth_gems.py`).
 - A bail cone that runs into the pear's tip buries the stone: stop it 0.5 mm above the tip.
 
+
+## Crater bezels and sprinkles (HELIUM, 21 Nov 2026)
+A crater bezel is a smooth rounded rim pulled up out of the surface around the stone, not a separate collet. It
+reads as part of the piece. For 2 mm accent stones ("sprinkles"), sample the surface point and normal of the body
+the stone sits on (not the piece's overall up), seat the stone along that normal, and keep it clear of any enamel.

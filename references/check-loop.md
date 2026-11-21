@@ -126,3 +126,16 @@ RESKIN (the whole set sits among an old collection: set ratio under 1.10), TYPES
 ring / earrings / cuff / pendant, or the type mix is an old collection's). Exit 1 on any flag except NEAR. Fix
 flagged pieces in the design (a new silhouette idea, not a new seed or stone), re-render, re-run. Put the report
 in the collection's reports folder and tell any sibling thread the result.
+
+## Lessons from a 10-piece enamel collection (HELIUM, 21 Nov 2026)
+- The watertight check must read the casting body's own entry in checks.json. A grep over the whole file matched the
+  enamel mesh's entry and passed a leaky body. Run check.py again after every repair.
+- A 0.055 mm voxel on a large piece needs about 14 GB. Add 8 GB of swap on the render machine, run one Blender job at
+  a time, and preview at 0.1. Swap-bound jobs vary from 16 to 60 minutes.
+- Editing a kit file during a local recheck breaks the code freeze. Re-freeze after every edit, before any job runs.
+- Stones placed after a groove or coat can be filled in again when the coat re-unions the shrunk body. Place small
+  stones away from coat ranges, and run clip_check and check_settings after every coat change.
+- Order matters with sequential SDF ops: add small craters after the main stone crater, or the main cut eats them.
+- Sameness: plain silver on white read as a reskin of earlier silver collections (set ratio 1.03 to 1.08) even with
+  new silhouettes. Colour and finish (enamel coats, a punchier grade) moved it to 1.11 to 1.30. If a collection
+  shares a metal with an earlier one, give it a finish that only it has.
