@@ -111,3 +111,10 @@ Run before every render of a piece built from many parts (each add() of a primit
    - Hard parts of different metals or wood that cross must be a real seat (a pin in its bore, a tang in its socket, an
      inlay in its recess). The check lists every such joint with its depth; look at each new one on the render.
    - An ornament (window, rivet, touchmark) must not be covered by another part: keep it clear of necks and collars.
+
+## Linked cast units (22 Nov 2026, from a brooch reel the client sent)
+A piece that moves is one small cast unit repeated and linked, not one big casting: a four-petal unit with a centre
+vein, cast once, laid in a 2 x 4 grid and joined by jump rings so it swings; satin finish; hung from a stick pin
+with a screw-on end cap. Check the unit alone (casting, thickness), then the links: every jump ring passes through
+a drilled or cast hole with clearance of at least its wire diameter, units clear each other through the whole swing
+(clipping check at both ends of the swing), and the pin and cap are bought findings.

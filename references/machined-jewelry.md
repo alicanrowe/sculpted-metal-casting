@@ -91,3 +91,13 @@ distressed with a grey patina. Round 3 followed that and dropped all liquid or s
   between loops or the leaning links of one clip the next: grow the outer strand, not the inner one.
 - **Fan-out jobs that share a temp kit folder must not run on one machine at once**; one job's setup deletes the
   other's kit. Run them one after another or give each its own folder.
+
+## Hard-surface fidelity (22 Nov 2026, from a three.js robot-eye comparison the client sent)
+Three AI-built models of the same mechanical eye were scored side by side; the winner won on construction, not
+on light. Hold machined pieces to the same list:
+- **Real internal parts you can see:** lens stacks, gears, a board, wire runs. An empty shell with a texture
+  scored lowest.
+- **Panel seams and small bevels on every edge.** A sharp, unbevelled edge catches no light and reads as CG.
+- **Polished chrome against black, with one warm accent metal** (copper or brass), never three metals.
+- **A soft studio key with a contact shadow** under the piece.
+- **An exploded view** on the sheet that shows how the parts go together (the assembly check already lists them).

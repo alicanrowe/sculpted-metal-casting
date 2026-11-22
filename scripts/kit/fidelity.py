@@ -44,6 +44,14 @@ def oxidised_sterling():
     L.new(nz.outputs[0], nzr.inputs[0])
     mask = N.new("ShaderNodeMath"); mask.operation = 'MULTIPLY'; mask.use_clamp = True   # 0 oxide, 1 polish
     L.new(mul.outputs[0], mask.inputs[0]); L.new(nzr.outputs[0], mask.inputs[1])
+    # a stippled or matte ground (mesh float attribute "ground", 0..1, written by the insert-and-layer kit) takes
+    # the oxide hard and stays matte, so the polished inserts stand bright on black, as on the real piece
+    ga = N.new("ShaderNodeAttribute"); ga.attribute_name = "ground"
+    gm = N.new("ShaderNodeMapRange"); gm.inputs[3].default_value = 1.0; gm.inputs[4].default_value = 1.0 - _env("GROUND_OX", 0.88)
+    L.new(ga.outputs["Fac"], gm.inputs[0])
+    mask2 = N.new("ShaderNodeMath"); mask2.operation = 'MULTIPLY'; mask2.use_clamp = True
+    L.new(mask.outputs[0], mask2.inputs[0]); L.new(gm.outputs[0], mask2.inputs[1])
+    mask = mask2
     mixc = N.new("ShaderNodeMix"); mixc.data_type = 'RGBA'
     mixc.inputs[6].default_value = (0.035, 0.032, 0.03, 1); mixc.inputs[7].default_value = (0.96, 0.95, 0.93, 1)
     L.new(mask.outputs[0], mixc.inputs[0]); L.new(mixc.outputs[2], b.inputs["Base Color"])
