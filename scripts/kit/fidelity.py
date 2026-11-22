@@ -10,7 +10,7 @@ What it changes against v2.realism (see references/render-fidelity.md for why ea
   - a real macro depth of field, AgX Medium High Contrast, adaptive sampling
 Scene units are mm (Blender treats them as metres), so the f-stop is scaled down by about 1000.
 
-Tuning (env): EXPO 0.65, SKY 0.55, SUN 4.5, SUNEL 22, SUNAZ 140, AOD 0.6 (mm), FSTOP 0.035,
+Tuning (env): EXPO 0.6, SKY 0.15, SUN 7 (overhaul 22 Nov: the old 0.55 sky washed polished faces white), SUNEL 32 (ov4: was 22, whose long shadows ran off the frame), SUNAZ 140, AOD 0.6 (mm), FSTOP 0.035,
 CAV_LO/CAV_HI pointiness window (0.455 / 0.505), AO_LO/AO_HI (0.3 / 0.85).
 """
 import math
@@ -70,17 +70,22 @@ def sun_and_sky(s):
     import bpy
     from mathutils import Vector
     w = bpy.data.worlds.new("sky"); s.world = w; w.use_nodes = True; N = w.node_tree.nodes; L = w.node_tree.links
-    bg = N["Background"]; bg.inputs[1].default_value = _env("SKY", 0.55)
+    bg = N["Background"]; bg.inputs[1].default_value = _env("SKY", 0.15)
+    # glossy rays see a brighter sky than diffuse ones (22 Nov overhaul): a dim fill keeps the sweep and the oxide
+    # from washing out, but polished and chrome faces that mirror the sky must still read bright, as in a photo
+    lp = N.new("ShaderNodeLightPath"); mx = N.new("ShaderNodeMix"); mx.data_type = 'FLOAT'
+    mx.inputs[2].default_value = _env("SKY", 0.15); mx.inputs[3].default_value = _env("SKYGLOSS", 0.4)
+    L.new(lp.outputs["Is Glossy Ray"], mx.inputs[0]); L.new(mx.outputs[0], bg.inputs[1])
     tc = N.new("ShaderNodeTexCoord"); sep = N.new("ShaderNodeSeparateXYZ"); L.new(tc.outputs["Generated"], sep.inputs[0])
     rp = N.new("ShaderNodeValToRGB"); el = rp.color_ramp.elements
     el[0].position = 0.42; el[0].color = (0.05, 0.048, 0.045, 1)
     el[1].position = 0.75; el[1].color = (0.78, 0.86, 1.0, 1)
     e2 = el.new(0.52); e2.color = (0.32, 0.3, 0.28, 1)
     L.new(sep.outputs["Z"], rp.inputs[0]); L.new(rp.outputs[0], bg.inputs[0])
-    ld = bpy.data.lights.new("sun", 'SUN'); ld.energy = _env("SUN", 4.5); ld.angle = math.radians(1.2)
+    ld = bpy.data.lights.new("sun", 'SUN'); ld.energy = _env("SUN", 7.0); ld.angle = math.radians(1.2)
     ld.color = (1.0, 0.86, 0.7)
     sun = bpy.data.objects.new("sun", ld); bpy.context.collection.objects.link(sun)
-    el_, az_ = math.radians(_env("SUNEL", 22)), math.radians(_env("SUNAZ", 140))
+    el_, az_ = math.radians(_env("SUNEL", 32)), math.radians(_env("SUNAZ", 140))
     d = Vector((math.cos(el_) * math.cos(az_), math.cos(el_) * math.sin(az_), math.sin(el_)))
     sun.rotation_euler = (-d).to_track_quat('-Z', 'Y').to_euler()
     return sun
@@ -94,11 +99,15 @@ def white_sweep(lo, hi):
     m = bpy.data.materials.new("paper"); m.use_nodes = True; b = m.node_tree.nodes["Principled BSDF"]
     b.inputs["Base Color"].default_value = (1, 1, 1, 1); b.inputs["Roughness"].default_value = 0.9
     f.data.materials.append(m)
+    # 22 Nov overhaul: the sweep is a shadow catcher on a transparent film. An opaque sweep showed its horizon and
+    # its grey falloff as tile edges in side views and squares; the catcher keeps only the cast shadow on white.
+    f.is_shadow_catcher = True
     return f
 
 
-def apply(objs, cams=None):
-    """Swap the studio look for the photographic one. objs: metal objects carry ob['metal'], stones ob['kind']."""
+def apply(objs, cams=None, keep_mats=False):
+    """Swap the studio look for the photographic one. objs: metal objects carry ob['metal'], stones ob['kind'].
+    keep_mats: light, sweep, tone and lens only; the kit keeps its own materials (machined two-tone, forged patina)."""
     import bpy
     from mathutils import Vector
     import v2
@@ -112,22 +121,44 @@ def apply(objs, cams=None):
             w = o.matrix_world @ Vector(c); lo = Vector(map(min, lo, w)); hi = Vector(map(max, hi, w))
     sun_and_sky(s); white_sweep(lo, hi)
     mt = oxidised_sterling()
-    for o in objs:
+    for o in (objs if keep_mats else []):
+        # ov4: a flush-set transmissive ball shows the dark seat behind it under the dim sky and reads as an
+        # empty hole. Keep it glassy but give it enough body colour to read as ruby / sapphire.
+        k = o.get("kind")
+        if k in ("ruby", "sapphire") and o.data.materials:
+            b = o.data.materials[0].node_tree.nodes.get("Principled BSDF")
+            if b:
+                b.inputs["Transmission Weight"].default_value = 0.45
+                b.inputs["Base Color"].default_value = (0.62, 0.02, 0.06, 1) if k == "ruby" else (0.9, 0.92, 1.0, 1)
+                b.inputs["Coat Weight"].default_value = 0.6
+    for o in ([] if keep_mats else objs):
         if o.get("metal"):
             o.data.materials.clear(); o.data.materials.append(mt)
         elif o.get("kind"):
             o.data.materials.clear(); o.data.materials.append(v2.gem_real(o["kind"]))
-    s.render.film_transparent = False
+    s.render.film_transparent = True
     s.view_settings.view_transform = 'AgX'
     try:
         s.view_settings.look = 'AgX - Medium High Contrast'
     except TypeError:
         pass
-    s.view_settings.exposure = _env("EXPO", 0.65)
+    s.view_settings.exposure = _env("EXPO", 0.6)
     s.cycles.use_adaptive_sampling = True; s.cycles.adaptive_threshold = 0.01
     s.cycles.blur_glossy = 0.3; s.cycles.caustics_refractive = False
     ctr = (lo + hi) / 2
+    # focus on the focal point, not the bbox centre (a ring's bbox centre is the empty finger hole, which put the
+    # head out of focus, 22 Nov overhaul): the stones' centroid if there are stones, else the centre of the top third
+    sts = [o for o in objs if o.get("kind")]
+    if sts:
+        foc = sum((o.matrix_world @ (sum((Vector(c) for c in o.bound_box), Vector()) / 8) for o in sts), Vector()) / len(sts)
+    else:
+        foc = Vector((ctr.x, ctr.y, lo.z + 0.8 * (hi.z - lo.z)))
     for cam in (cams or [s.camera]):
+        # ov4: a camera below the floor sees only the transparent shadow catcher and renders an empty tile.
+        # Mirror it above the floor (same azimuth, same distance) and aim it back at the focal point.
+        if cam.location.z < lo.z + 0.05 * (hi.z - lo.z):
+            cam.location.z = ctr.z + abs(cam.location.z - ctr.z) * 0.45 + 0.05 * (hi.z - lo.z)
+            cam.rotation_euler = (foc - cam.location).to_track_quat('-Z', 'Y').to_euler()
         cam.data.dof.use_dof = True
-        cam.data.dof.focus_distance = (cam.location - ctr).length
-        cam.data.dof.aperture_fstop = _env("FSTOP", 0.035)
+        cam.data.dof.focus_distance = (cam.location - foc).length
+        cam.data.dof.aperture_fstop = _env("FSTOP", 0.07)

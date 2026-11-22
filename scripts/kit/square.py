@@ -8,18 +8,41 @@ from PIL import Image
 S = 1080
 
 
-def paper_alpha(im, white=246, soft=40):
+def paper_alpha(im, white=None, soft=40):
     """Opaque renders on a white sweep (LOOK=fidelity): turn the paper into alpha so the piece and its
-    cast shadow blend onto the page white, with no grey tile edge."""
+    cast shadow blend onto the page white, with no grey tile edge. The paper level is read from the top rows
+    (the far sweep), so a darker exposure that keeps the silver from washing out still lands on page white."""
     lum = im.convert("L")
+    if white is None:
+        top = sorted(lum.crop((0, 0, im.width, max(4, im.height // 20))).getdata())
+        white = top[len(top) // 2] + 3
     a = lum.point(lambda v: 255 if v < white - soft else max(0, int((white - v) * 255 / soft)))
     out = im.copy(); out.putalpha(a)
     return out
 
 
+def soften_shadow(im, k=0.42):
+    """LOOK=fidelity renders the sweep as a shadow catcher: the cast shadow comes out pure black at the shadow's
+    opacity, and a hard sun makes that opacity 1. On paper a shadow is grey (the sky fills it), so scale the alpha
+    of pure-black pixels by k (piece pixels are never pure black after the tone map)."""
+    import numpy as np
+    a = np.asarray(im.convert("RGBA")).copy()
+    sh = a[..., :3].astype(int).sum(-1) < 6
+    # ov4: a long shadow that runs off the render frame ended in a hard straight edge on the page. Fade the shadow
+    # (never the piece) to nothing over the outer 14% of the frame, so it dies out softly wherever it reaches.
+    H, W = a.shape[:2]; m = 0.14 * min(H, W)
+    yy, xx = np.mgrid[0:H, 0:W]
+    edge = np.minimum(np.minimum(xx, W - 1 - xx), np.minimum(yy, H - 1 - yy)) / m
+    fade = np.clip(edge, 0, 1) ** 1.5
+    a[..., 3] = np.where(sh, (a[..., 3] * k * fade).astype(np.uint8), a[..., 3])
+    return Image.fromarray(a, "RGBA")
+
+
 def fit(im, w, h, pad=0.06):
     if im.getchannel("A").getextrema() == (255, 255):
         im = paper_alpha(im)
+    elif os.environ.get("LOOK") == "fidelity":
+        im = soften_shadow(im)
     a = im.getchannel("A")
     bb = a.point(lambda v: 255 if v > 6 else 0).getbbox() or (0, 0, im.width, im.height)
     im = im.crop(bb)

@@ -41,3 +41,13 @@ first two rows are geometry and finish, and they matter more than all the lighti
 The worked example rendered one existing piece (a carved lotus pendant) both ways
 from the same mesh and camera. The oxidised finish and the low sun alone made the engraved petals read; the
 remaining gap was row 2 (the petal engraving is too shallow to hold much black), which is a modelling fix.
+
+## Lessons from the full-collection polish (22 Nov 2026, 96 pieces)
+- **Don't cut detail into thin strokes; raise it.** Most sculpted strokes are 0.7 to 0.9 mm thick. Engraved barbs cut 0.2 mm into them took the share of metal under 0.6 mm from 3.6% to 13% and opened about 15 meshes. A strict wall test kept only 5 of 462 cuts. `scripts/kit/chase.py` (default `CH_MODE=ridge`) lays the barbs on as tapered raised ridges instead: each one is projected onto the real surface, kept only where it sits on a face (not an edge), and pointed at both ends. The narrow valleys between ridges hold the oxide. Walls and watertightness stay as they were, and silhouettes don't change. Cut mode is still available for strokes thicker than about 1.2 mm.
+- **Sky:** use a dim diffuse sky (`SKY 0.15`) with a brighter sky for glossy rays only (`SKYGLOSS` 0.4 for silver, 0.9 for chrome). A bright sky washed polished faces and the sweep white. A dim one alone turned chrome tops black.
+- **Focus** on the stones' centroid, or on the top third when a piece has no stones. A ring's bounding-box centre is the empty finger hole.
+- **Shadow catcher on a transparent film**, not an opaque sweep. An opaque sweep shows its horizon and grey falloff as tile edges. `square.py` greys the pure-black catcher shadow (`soften_shadow`) and fades it out over the outer 14% of the frame, so a shadow that reaches the frame never ends in a hard line. With the sun at 22 degrees, shadows ran off most frames, so the default is now 32 degrees.
+- **Cameras below the floor** see only the transparent catcher and give an empty tile. `fidelity.apply` mirrors any such camera above the floor and re-aims it.
+- **Flush-set transmissive balls** (ruby or sapphire precision balls) show the dark seat behind them and read as empty holes under the dim sky. `fidelity.apply` lowers their transmission and deepens the body colour.
+- **Memory:** carved meshes over about 2M faces run Blender out of memory on 16 GB. Thin them first (`FACECAP`). Chrome-plus-enamel pieces with two big bodies need 1M.
+- **Watertight gate:** test every STL a piece writes (metal and enamel), not "any body is watertight". A grep for `"watertight": true` passed on the enamel alone.
