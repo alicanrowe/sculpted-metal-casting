@@ -106,6 +106,11 @@ Run before every render of a piece built from many parts (each add() of a primit
    - One piece of metal is one surface: a set saw tooth is the plate's own tooth with its tip bent (no second tooth plate
      laid through it, which renders as a line through every tooth); a barb split from a tine starts inside the tine at
      slightly less than the tine's section and draws out to a sharp point (no blunt cone stuck on, no coincident faces).
+   - Seats on a rail (Nine Lives harmony check, 23 Nov 2026): a piped welt made by offsetting the seat's cross-section
+     also grows downward, so its underside dips into the rail top (Thorn r10: 2.2 mm, at both end panels); and skirts or
+     a channel run full length catch the leg heads where the frame is wider than the rail (Thorn: 2.6 mm into each leg
+     head). Clip-check every seat part against the frame mesh itself, not against the rail you drew, and notch the welt
+     over the rail and the skirts over each leg head with 0.5 mm clear.
    - Wound thread or wire: turns at least one diameter apart, the outer layer resting on the inner, the tail one strand
      with its layer, routed round rims and guides rather than through them.
    - Hard parts of different metals or wood that cross must be a real seat (a pin in its bore, a tang in its socket, an
