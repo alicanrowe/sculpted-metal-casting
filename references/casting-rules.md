@@ -15,6 +15,16 @@ Pieces are printed in castable wax or resin (the project used a Formlabs Form 4 
 
 Measure with `check.py`. It ray-samples the wall and wire thickness and reports the 5th percentile and the minimum. Treat a 5th percentile under 0.8 mm as a flag to look at, not an automatic fail: needle ends pull it down. Look at where the thin samples are.
 
+## Vendor minimums (enforced)
+| Vendor and material | Minimum wall | Notes |
+|---|---|---|
+| Materialise OnSite, brass (printed wax, lost-wax cast) | **0.8 mm everywhere, tips included** | Quote #5734832 (Nov 2026) came back as "many parts have walls too thin, some too thin to print". Their analysis flags any spot under 0.8 mm. Plating is a ~0.5 µm decorative flash with no warranty, so polish and patina should carry the look. Ships EXW from Belgium, uninsured: split big orders. |
+
+- For a Materialise order, the 0.8 mm floor beats the softer rows above. Needle tips (0.5 mm) and fine cast points (0.3 mm) do not pass. End tips in a 0.8 mm round, or accept the risk with the vendor in writing.
+- Before any upload, run `python -I scripts/wall_check.py PART.stl 0.8`. It ray-tests every face (not a sample) and must print `thin 0`. It also lists gaps under 0.6 mm, which fill or fuse in casting.
+- If the generator isn't on hand (an STL is the master), `python -I scripts/thicken_walls.py IN.stl OUT.stl 0.8` moves each thin wall's surfaces outward by half its shortfall, fading the offset out over about 0.8 mm so it reads as the same form, then smooth-unions it with the part. Run wall_check again and look at a before/after render. Gaps narrower than about 0.6 mm next to a thin wall fuse shut, as they would in casting. If the design needs one (for example a bell's slit or the gap in a double ring), widen it to 1.0 mm or more in the source instead.
+- Don't fix thin walls with balls or beads along the thin spots. The first pass on the Moth case hardware did that and it rendered as warts and a beaded rope. Use the offset.
+
 ## One body
 - A single piece must mesh to **one body** (`bodies 1` in `make.py`'s printout). An earring pair is **two**, one per earring, and the pair builder declares `s.units` so each earring is bridged on its own.
 - `make.py` bridges floating metal to the main body of its unit with a short liquid strut, then drops cut debris under 1 mm³ and prints it as `dropped debris`. Several 0.0 mm³ entries are harmless noise.
