@@ -81,5 +81,4 @@ What to take from it:
 - Oxidised ground plus polished highs as the default finish for pierced work (see `render-fidelity.md`).
 - Pair ornate pieces with plain textured bands in a set: one loud piece, quiet companions.
 Watch: style rule against gothic cross, dagger and fleur-de-lis terminals still holds. Take the pierced tracery and
-the finish, not cross or fleur shapes on the shoulders. The design-taste ban on black gothic arches applies to products
-and furniture; in jewelry, pierced tracery is liked.
+the finish, not cross or fleur shapes on the shoulders.
