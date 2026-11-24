@@ -59,3 +59,27 @@ The X stitches must lie on the cords, never sink into them; cord ends sit in hol
 Also: a spike on a steel rod is one piece of metal, sharp, flowing smoothly out of the rod ("make this spike sharp and
 smoothely go into the rest of the piece as its one piece of metal"); saw teeth carry no line through them; ornaments on a
 neck plate are never covered by the neck ("so the stained window motif isnt cut off").
+
+## 10. Pierced Gothic tracery signet: a liked reference (24 Nov 2026)
+The client sent an Instagram story photo (`img/tracery_signet_aercrawler.jpg`; the story links aercrawler.com, credited as
+the likely maker, AERCRAWLER) with "add this to jewlerry skill and style ref". Reference, not to copy.
+What it shows:
+- A chunky oval signet in silver. The face is pierced right through with Gothic tracery: quatrefoils and trefoil cusps
+  locked into a cross-shaped mullion grid, so the finger and shadow show through the holes. A plain raised bezel rim
+  frames the face.
+- The shoulders are pierced too, with smaller trefoil and cusp openings, so the ornament runs down the shank instead of
+  stopping at the head.
+- Finish: heavily oxidised recesses (near black) against polished high points on the tracery ribs and rim. The contrast
+  draws the pattern; the silver reads old and worn, not bright and new.
+- Worn with wide brushed or hairline-textured silver bands (one a thumb ring), plain and soft-edged, so the signet is the
+  only ornate piece on the hand. One band carries a small cast flower or shell charm at its edge.
+What to take from it:
+- Pierce through, don't just carve: real voids give depth, shadow and lightness to a heavy signet. Keep every rib at the
+  casting minimum (`casting-rules.md`) and the face genus checked (`insert-layer.md`, `finish.py`).
+- Mass first: a big, confident signet head with ornament inside a clean rim, not ornament spreading past its edges.
+- Ornament carries onto the shoulders at a smaller scale, so head and shank read as one piece.
+- Oxidised ground plus polished highs as the default finish for pierced work (see `render-fidelity.md`).
+- Pair ornate pieces with plain textured bands in a set: one loud piece, quiet companions.
+Watch: style rule against gothic cross, dagger and fleur-de-lis terminals still holds. Take the pierced tracery and
+the finish, not cross or fleur shapes on the shoulders. The design-taste ban on black gothic arches applies to products
+and furniture; in jewelry, pierced tracery is liked.
