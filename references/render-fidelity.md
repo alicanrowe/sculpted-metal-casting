@@ -51,3 +51,8 @@ remaining gap was row 2 (the petal engraving is too shallow to hold much black),
 - **Flush-set transmissive balls** (ruby or sapphire precision balls) show the dark seat behind them and read as empty holes under the dim sky. `fidelity.apply` lowers their transmission and deepens the body colour.
 - **Memory:** carved meshes over about 2M faces run Blender out of memory on 16 GB. Thin them first (`FACECAP`). Chrome-plus-enamel pieces with two big bodies need 1M.
 - **Watertight gate:** test every STL a piece writes (metal and enamel), not "any body is watertight". A grep for `"watertight": true` passed on the enamel alone.
+
+## Furniture and large metal pieces
+The room-scale version of this file (a real floor and room, strip reflectors light-linked to the piece, brushed and
+smudged metal, bevel normals, AgX) is hardwood-furniture-cad `references/photoreal.md` with `scripts/blender/photoreal.py`
+(24 Nov 2026). Use it for chairs, lights and anything bigger than a hand.
