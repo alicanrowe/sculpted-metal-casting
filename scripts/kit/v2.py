@@ -681,7 +681,6 @@ def stone_mesh(rec, kind):
     D, L = rec["D"], rec["L"]
     pts = []
     if rec.get("bead"):
-        import bpy, bmesh
         me = bpy.data.meshes.new("bead"); bm = bmesh.new()
         bmesh.ops.create_uvsphere(bm, u_segments=48, v_segments=24, radius=D / 2)
         bm.to_mesh(me); bm.free()
