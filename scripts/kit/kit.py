@@ -466,7 +466,6 @@ def wing(s, m, stones, outline=WING, sx=1.0, sy=1.0, rot=0.0, t=(0, 0), mirror=F
             if thorn_tips:
                 d = nrm(np.append(v[-1] - v[-2], 0))[:2]
                 spike(s, m, v[-1], v[-1] + d * 2.2 * sc ** 0.6, r0=vein_w * 1.2 * sc ** 0.3, bend=0.18)
-    rng = np.random.default_rng(seed)
     kindf = (lambda x, y: pal[min(len(pal) - 1, int(np.hypot(x - root[0], y - root[1]) /
                                                     (np.linalg.norm(o - root, axis=1).max() + 1e-6) * len(pal)))])
     glaze(s, m, stones, o, kindf, sizes=sizes, seed=seed, root=root, blocked=blocked, margin=float(np.clip(0.9 * sc_, 0.28, 0.9)), gap=float(np.clip(0.55 * sc_ ** 0.5, 0.35, 0.55)))
