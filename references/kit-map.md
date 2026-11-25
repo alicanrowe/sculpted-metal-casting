@@ -30,12 +30,8 @@ Units are millimetres for jewelry (centimetres in the sawhorse). Z is up. Every 
 
 Piece names follow `<round>_<family>_<nn>`, for example `g4_vein_ring_03`. Families register as `(builder, view kind, count)`; the view kind (`flat`, `ring`, `cuff`, `hang`) picks the four camera angles.
 
-## Enamel helpers (HELIUM kit, jewelry/helium/kit/helium.py)
-- inlay(..., conform=True): a spot of enamel in a shallow cut. With conform on, it samples the surface at the edge
-  of the field and deepens the cut by the sag, so enamel on a curved surface stays flush.
-- coat(): a long enamel groove along a tube. It subtracts the tube lifted along "up" and re-unions the body shrunk
-  by the depth. Pass the tube's flatten factor or the lift is wrong on flattened tubes. A chain of ellipsoids looks
-  beaded; use the groove.
-- Sequential SDF ops can't intersect with a union of segments, so the coat's enamel is meshed from a sampled grid
-  (enamel_mesh, using max(body, outer tube, minus inner tube)).
+## Enamel helpers (HELIUM kit; inlay v3, 25 Nov 2026)
+- Colour is always a cast cell filled with cold enamel: read `enamel-cells.md`. `inlay()` (oval window) and
+  `band()` / `coat()` (long pill down a tube) only record cells; `scripts/kit/cells.py` cuts them from the finished
+  mesh with booleans and builds the enamel 0.1 mm under the rim. The old grazing-angle coat groove is retired.
 - filigree(): a thin barbed tendril for fine linework against chunky forms.
