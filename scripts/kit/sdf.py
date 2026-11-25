@@ -133,7 +133,7 @@ def _prim(P, i, x, y, z):
         l2 = L * L; rr = r1 - r2; a2 = l2 - rr * rr; il2 = 1.0 / l2
         yv = lx * L
         zv = yv - l2
-        qx = 0.0; qy = ly * l2; qz = lz * l2
+        qy = ly * l2; qz = lz * l2
         x2 = qy * qy + qz * qz
         y2 = yv * yv * l2
         z2 = zv * zv * l2
