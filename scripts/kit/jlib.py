@@ -271,7 +271,6 @@ def wrap_cyl(u, v, rx, ry, h_off=0.0, r_off=0.0):
 def fuse(objs, name, voxel=0.05, smooth=2):
     """Union parts into one watertight solid via voxel remesh."""
     bpy.ops.object.select_all(action='DESELECT')
-    meshes = []
     for ob in objs:
         bpy.context.view_layer.objects.active = ob
         ob.select_set(True)
