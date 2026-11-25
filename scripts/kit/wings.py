@@ -73,7 +73,6 @@ def gem_wing(s, m, st, t=(0, 0), ang=0.0, scale=1.0, flip=False, outline=FORE, p
         s.sphere(c[-1], W[-1], k=0.2)
         if bead_kind:
             bead(s, m, st, (C[0], C[1]), max(1.6, 2.2 * sc + 0.4), bead_kind, z=z + 0.8 * sc + 1.0)
-    rng = np.random.default_rng(seed)
     dmax = np.linalg.norm(o - root, axis=1).max()
     kindf = lambda x, y: pal[min(len(pal) - 1, int(np.hypot(x - root[0], y - root[1]) / dmax * len(pal)))]
     glaze(s, m, st, o, kindf, sizes=sizes, seed=seed, root=root, blocked=blocked,
