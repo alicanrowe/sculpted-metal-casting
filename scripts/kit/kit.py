@@ -407,7 +407,7 @@ def rose(s, m, stones, cx, cy, R, n=6, kinds=("aquamarine", "topaz"), center="ro
     if cz: pane(s, m, stones, (cx, cy), "round", cz[-1], cz[-1], kinds[0], vein=0.3)
     for i in range(n):
         a = 2 * math.pi * i / n + math.pi / 2
-        b0, b1 = a - math.pi / n, a + math.pi / n
+        b0 = a - math.pi / n
         # tracery spoke with a heart notch where it meets the rim
         p0 = (cx + rc * math.cos(b0), cy + rc * math.sin(b0)); p1 = (cx + R * math.cos(b0), cy + R * math.sin(b0))
         lead(s, m, [p0, p1], r=w * 0.45)
