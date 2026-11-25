@@ -1,3 +1,5 @@
+![Sculpted metal casting: Cast-metal jewelry and furniture that looks hand-carved and liquid, and actually casts.](.github/banner.png)
+
 # Sculpted metal casting skill
 
 A Claude skill for designing sculptural cast-metal pieces that look hand-carved and liquid rather than CAD-made, and that actually cast: sterling jewelry printed in castable wax, and furniture-scale castings such as a metal sawhorse with a removable leather seat.
