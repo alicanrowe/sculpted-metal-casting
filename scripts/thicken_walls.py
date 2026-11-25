@@ -17,9 +17,7 @@ from skimage import measure
 
 
 def thicken(src, MIN):
-    R = MIN/2 + 0.08      # 0.96 mm across after: margin for cleanup and polish
     P = 0.025             # voxel pitch, mm
-    K = 0.15              # smooth-union blend radius, mm
     m = trimesh.load(src) if isinstance(src, str) else src
 
     def face_thickness(mesh):
@@ -43,10 +41,6 @@ def thicken(src, MIN):
     key = np.stack([lab, cell[:, 0], cell[:, 1], cell[:, 2]], 1)
     _, lab = np.unique(key, axis=0, return_inverse=True)
     lab = lab.ravel()
-
-    def smax(a, b, k):
-        h = np.clip(0.5 + 0.5*(a - b)/k, 0, 1)
-        return a*h + b*(1-h) + k*h*(1-h)
 
     adds = []
     for l in np.unique(lab):
