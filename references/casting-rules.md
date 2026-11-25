@@ -18,7 +18,7 @@ Measure with `check.py`. It ray-samples the wall and wire thickness and reports 
 ## Vendor minimums (enforced)
 | Vendor and material | Minimum wall | Notes |
 |---|---|---|
-| Materialise OnSite, brass (printed wax, lost-wax cast) | **0.8 mm everywhere, tips included** | Quote #5734832 (Nov 2026) came back as "many parts have walls too thin, some too thin to print". Their analysis flags any spot under 0.8 mm. Plating is a ~0.5 µm decorative flash with no warranty, so polish and patina should carry the look. Ships EXW from Belgium, uninsured: split big orders. |
+| Materialise OnSite, brass (printed wax, lost-wax cast) | **0.8 mm everywhere, tips included** | A Nov 2026 quote came back as "many parts have walls too thin, some too thin to print". Their analysis flags any spot under 0.8 mm. Plating is a ~0.5 µm decorative flash with no warranty, so polish and patina should carry the look. Ships EXW from Belgium, uninsured: split big orders. |
 
 - For a Materialise order, the 0.8 mm floor beats the softer rows above. Needle tips (0.5 mm) and fine cast points (0.3 mm) do not pass. End tips in a 0.8 mm round, or accept the risk with the vendor in writing.
 - Before any upload, run `python -I scripts/wall_check.py PART.stl 0.8`. It ray-tests every face (not a sample) and must print `thin 0`. It also lists gaps under 0.6 mm, which fill or fuse in casting.
