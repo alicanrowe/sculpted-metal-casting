@@ -508,7 +508,6 @@ def br15_bead_vine():
     nib(s, F, pts, w=1.5, pen=0.8, hair=0.25, taper=(0, 0), closed=True)
     for i in range(20):
         j = int(i / 20 * 139); p = pts[j]; d = p / np.linalg.norm(p); nn = np.array([-d[1], d[0]])
-        sd = 1 if i % 2 else -1
         if i % 2:
             stalk(s, F, st, tuple(p), tuple(p + d * 6.0 + nn * 2.0), d=2.2, kind=["londonblue", "aquamarine", "moonstone"][i % 3], bend=0.3)
         else:
