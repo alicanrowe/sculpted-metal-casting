@@ -162,7 +162,6 @@ def mesh_features(path, max_faces=60000):
         except Exception:
             pass
     ang = m.face_adjacency_angles
-    L = m.edges_unique_length[m.face_adjacency_edges_tree.query(m.face_adjacency_edges)[1]] if False else None
     w = np.linalg.norm(m.vertices[m.face_adjacency_edges[:, 0]] - m.vertices[m.face_adjacency_edges[:, 1]], axis=1)
     h, _ = np.histogram(np.degrees(ang), bins=[0, 2, 5, 10, 20, 35, 60, 90, 181], weights=w)
     return h / max(h.sum(), 1e-9)
