@@ -210,7 +210,6 @@ def heart_pendant():
     H = [(0, 8.6), (3.6, 13.6), (8.8, 15.2), (13.0, 11.6), (13.0, 4.4), (9.6, -3.4), (4.6, -9.4), (0, -15.0)]
     right = np.array([[x, y, 0] for x, y in H]); left = right[::-1][1:-1] * [-1, 1, 1]
     loop = catmull(np.vstack([right, left]), 10, closed=True)
-    u = np.linspace(0, 1, len(loop))
     yv = loop[:, 1]
     rad = np.interp(yv, [-15, -8, 0, 10, 16], [0.95, 1.15, 1.45, 1.6, 1.5])
     blade(s, np.vstack([loop, loop[:1]]), np.append(rad, rad[0]), np.append(rad, rad[0]) / 1.35, normal=(0, 0, 1), k=0)
