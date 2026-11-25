@@ -47,3 +47,14 @@ Wire thickness is checked, but the gaps between wires are not. Tight lattice ope
 - **`braid` pitch is a fraction of the path's length, not cm.** Arc length is normalised, so the same pitch twists lazily on a long bar and tightly on a short one. Resample the path densely (about 0.5 cm steps) and pick pitch per member length (0.13 to 0.24 on a 20 cm lancet, 0.45 to 0.6 on a 4 cm one).
 - **Twisted pairs must not be near-tangent.** When the twist amplitude is close to the strand radius, the strands only just touch and the mesher leaves non-manifold edges. Keep the amplitude clearly below the radius (0.075 to 0.095 cm for 0.08 to 0.12 cm strands worked) so the strands fuse. Then re-mesh at a slightly shifted VOX (for example 0.033, 0.037 or 0.031 around 0.035) if any edge is still non-manifold. Don't fix it with pymeshfix, which drops volume.
 - Guard the retry: retry once over a fixed list of VOX values, then stop. A recursive retry ran out of memory.
+
+## Ring size: measure the finger hole, never trust Rin (25 Nov 2026)
+A ring's `Rin` is only where the shank strokes are aimed. Blends, twist knots and a head's seat ellipsoid all
+reach inside it: rebuilt in a CAD tool, a balloon-shank cocktail ring (Rin 8.5, meant as about US 6.5) measured
+16.05 mm across inside, about one US size small, because the cushion seat's ellipsoid hung 0.5 mm below Rin and
+the shank sat at Rin + rmax / 1.12. Two rules:
+- Cut the finger hole last: subtract a cylinder of radius Rin along the finger axis after every added member
+  (k about 0.15), so nothing can sit inside the band.
+- Measure before calling a ring done: rays from the finger axis at several heights, smallest distance x 2 = the
+  inside diameter; it must match the asked size (US size -> mm: 11.63 + 0.8128 x size) within 0.1 mm.
+  Ring sizes go in the piece spec as a US size, not a radius.
