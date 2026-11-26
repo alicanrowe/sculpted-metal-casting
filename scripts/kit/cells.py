@@ -1,7 +1,7 @@
-"""HELIUM inlay v3 (25 Nov 2026): real enamel cells, cut after meshing.
+"""Enamel cells (25 Nov 2026): real enamel cells, cut after meshing.
 
-The client, 25 Nov: "still not understanding how this enamel or whatever inlay works ... a lot of it looks kinda messy
-and unrealistic". The old coat() lifted a tube and cut the balloon at a grazing angle, so the colour ran out to a
+Client critique, 25 Nov 2026: the colour fields looked messy and unrealistic and the making was unclear.
+The old coat() lifted a tube and cut the balloon at a grazing angle, so the colour ran out to a
 feathered, uneven edge with no metal wall to hold it. No cold-enamel shop could fill that.
 
 v3 makes every colour field a cast cell, the way a champleve enamel or a soft-enamel pin is made:
@@ -16,7 +16,7 @@ Cutting is a mesh boolean (manifold3d) on the finished, smoothed metal, so the r
 
 A cell is recorded on the Scene by helium.inlay() / helium.coat(); make.py calls apply(s, mesh) after meshing.
 """
-import math, sys
+import math, os, sys
 import numpy as np
 
 FILL_BELOW = 0.10     # enamel surface under the rim (mm)
@@ -76,8 +76,15 @@ def foot_band(c, pts, tree=None):
     """Long pill down a balloon's crown: coordinates (arc length along the path, arc across the crown); the
     walls are radial, so they meet the surface square all the way round."""
     from scipy.spatial import cKDTree
-    P = np.asarray(c["P"]); T = np.asarray(c["T"]); N = np.asarray(c["N"]); B = np.cross(T, N)
-    S = np.asarray(c["S"]); R = np.asarray(c["R"])
+    P = np.asarray(c["P"]); T = np.asarray(c["T"]); N = np.asarray(c["N"])
+    S = S0 = np.asarray(c["S"]); R = np.asarray(c["R"])
+    # the path is stored every 0.1 mm; snapping to the nearest sample made the frame jump ~0.06 mm at the crown,
+    # which marched out as saw teeth along the rim. Interpolate the frame to 5 microns first.
+    k = 20; u = np.arange((len(S) - 1) * k + 1) / k; i0 = np.minimum(u.astype(int), len(S) - 2); t = (u - i0)[:, None]
+    lerp = lambda A: A[i0] * (1 - t) + A[i0 + 1] * t
+    P = lerp(P); T = lerp(T); N = lerp(N); S = lerp(S[:, None])[:, 0]; R = lerp(R[:, None])[:, 0]
+    T /= np.linalg.norm(T, axis=1)[:, None]; N -= T * np.einsum("ij,ij->i", N, T)[:, None]
+    N /= np.linalg.norm(N, axis=1)[:, None]; B = np.cross(T, N)
     tree = tree or cKDTree(P)
     _, i = tree.query(pts)
     v = pts - P[i]
@@ -86,7 +93,7 @@ def foot_band(c, pts, tree=None):
     phi = np.arctan2(vb, vn)
     a = phi * R[i]                                   # arc across the crown at the surface
     s0, s1 = c["s0"], c["s1"]; sc = (s0 + s1) / 2; Ls = (s1 - s0) / 2
-    W = np.interp(s, S, c["W"])
+    W = np.interp(s, S0, c["W"])
     g = _superellipse(s - sc, a, Ls, W, c.get("m", 3.0))
     g[np.abs(phi) > 1.4] = 10.0                      # never the far side of the tube
     return g
@@ -161,6 +168,26 @@ def from_man(M):
     return trimesh.Trimesh(V, F, process=False)
 
 
+def clean_enamel(et):
+    """Drop the specks a chunked band can leave (Talon 3.1: 72 under 0.0001 mm3, plus three pinched edges where
+    two chunks touch), and close any pinch left with pymeshfix, so the enamel STL stays one watertight body."""
+    import trimesh
+    et = trimesh.Trimesh(np.asarray(et.vertices), np.asarray(et.faces), process=True)   # weld as the STL will (Helium: 2-face flaps)
+    parts = et.split(only_watertight=False)
+    if len(parts) > 1:
+        keep = [p for p in parts if abs(p.volume) > 0.01] or [max(parts, key=lambda p: abs(p.volume))]
+        et = trimesh.util.concatenate(keep)
+    if not et.is_watertight:
+        import pymeshfix
+        out = []
+        for p in et.split(only_watertight=False):
+            v, f = pymeshfix.clean_from_arrays(np.asarray(p.vertices), np.asarray(p.faces))
+            out.append(trimesh.Trimesh(v, f, process=False))
+        et = trimesh.util.concatenate(out)
+        print("cells: enamel repaired, watertight", et.is_watertight, flush=True)
+    return et
+
+
 def _rss():
     import os
     return int(open("/proc/self/statm").read().split()[1]) * os.sysconf("SC_PAGE_SIZE") / 1e9
@@ -173,7 +200,7 @@ def _coords(lo, n, vox, idx):
 
 def grids(c, outer, vox):
     """Sample the outer skin and the footprint on the cell's box (no full coordinate array: memory)."""
-    lo, hi = cell_box(c); lo = lo - 2 * vox; hi = hi + 2 * vox
+    lo, hi = cell_box(c); lo = np.floor((lo - 2 * vox) / vox) * vox; hi = hi + 2 * vox   # one global lattice: chunk overlaps mesh identically (no seams)
     n = np.ceil((hi - lo) / vox).astype(int) + 1
     rows = _cull(outer, lo, hi)
     dep = c["depth"]
@@ -265,7 +292,7 @@ def apply(s, metal, vox, stones=()):
     for j, c, cut, en, smp in built:
         e = en ^ M                                   # must be empty (no clipping)
         clip = float(e.volume()) if not e.is_empty() else 0.0
-        et = from_man(en); vol = float(en.volume())
+        et = clean_enamel(from_man(en)); vol = float(en.volume())
         # land: from each edge point step LAND along the surface, away from the cell, and look for trouble
         edge = smp["edge"]; bad_land = 0; worst = 9.0
         if len(edge):

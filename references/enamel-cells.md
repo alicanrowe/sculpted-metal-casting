@@ -45,3 +45,17 @@ Lessons from making it:
 - Pockets near a stone: keep the pocket's inner edge >= stone radius + roll + 0.8 mm from the stone axis.
 - Show the client a cut-through drawing of one pocket (`section.py` in the collection kit): metal, enamel and the
   four numbers. It answers "how is this made" faster than a render.
+
+More lessons (25-26 Nov 2026, ten pieces through the loop):
+- Interpolate a band's footprint frame along the path (20x, to about 5 um) and renormalise T and N. Snapping to the
+  nearest 0.1 mm path sample gave saw-tooth rims.
+- Snap every chunk's grid origin to one global lattice, or long cells show a seam where chunks meet.
+- `clean_enamel` welds first, then drops specks under 0.01 mm3, then runs pymeshfix only if still open. Without the
+  weld, two-face flaps become four-face edges; without the speck drop, dozens of pinched specks break watertightness.
+- Wall checks: ray checks report a square pocket rim on a curved crown as thin metal. That is the rim edge, not a
+  wall. Use `scripts/kit/wall_split.py <piece> <stl> 0.8`: it splits "at cells (rim edge)" from "elsewhere" and
+  lists real thin clusters. It needs embreex; without it the check runs out of memory or hangs.
+- Keep cells clear of a bezel's puffed rim, not only its seat: the land check can't see colour climbing a bezel,
+  so look at the close-up beside every stone.
+- Photo renders of big pieces: mesh the render copy coarser than the casting STL (0.07 to 0.14 mm). A lower face
+  cap alone did not stop Blender running out of memory.
